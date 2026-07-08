@@ -7,7 +7,7 @@ package usermgr
 import (
 	"context"
 
-	"user_mgr/user_mgr_pb"
+	"github.com/starslipay/user_mgr/user_mgr_pb"
 
 	"github.com/zeromicro/go-zero/zrpc"
 	"google.golang.org/grpc"

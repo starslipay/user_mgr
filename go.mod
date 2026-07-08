@@ -1,4 +1,4 @@
-module user_mgr
+module github.com/starslipay/user_mgr
 
 go 1.25.4
 

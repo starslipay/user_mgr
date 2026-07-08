@@ -1,6 +1,6 @@
 package svc
 
-import "user_mgr/internal/config"
+import "github.com/starslipay/user_mgr/internal/config"
 
 type ServiceContext struct {
 	Config config.Config

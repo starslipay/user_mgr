@@ -7,9 +7,9 @@ package server
 import (
 	"context"
 
-	"user_mgr/internal/logic"
-	"user_mgr/internal/svc"
-	"user_mgr/user_mgr_pb"
+	"github.com/starslipay/user_mgr/internal/logic"
+	"github.com/starslipay/user_mgr/internal/svc"
+	"github.com/starslipay/user_mgr/user_mgr_pb"
 )
 
 type UserMgrServer struct {

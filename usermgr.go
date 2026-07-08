@@ -4,10 +4,10 @@ import (
 	"flag"
 	"fmt"
 
-	"user_mgr/internal/config"
-	"user_mgr/internal/server"
-	"user_mgr/internal/svc"
-	"user_mgr/user_mgr_pb"
+	"github.com/starslipay/user_mgr/internal/config"
+	"github.com/starslipay/user_mgr/internal/server"
+	"github.com/starslipay/user_mgr/internal/svc"
+	"github.com/starslipay/user_mgr/user_mgr_pb"
 
 	"github.com/zeromicro/go-zero/core/conf"
 	"github.com/zeromicro/go-zero/core/service"

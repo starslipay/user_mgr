@@ -3,8 +3,8 @@ package logic
 import (
 	"context"
 
-	"user_mgr/internal/svc"
-	"user_mgr/user_mgr_pb"
+	"github.com/starslipay/user_mgr/internal/svc"
+	"github.com/starslipay/user_mgr/user_mgr_pb"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
