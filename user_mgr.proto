@@ -40,15 +40,6 @@ message GetUserInfoRsp {
     string id_card = 9;
 }
 
-message GetUserBalanceReq {
-    string user_id = 1;
-}
-
-message GetUserBalanceRsp {
-    string user_id = 1;
-    int64 balance = 2;
-}
-
 // 更新用户信息
 message UpdateUserInfoReq {
     string user_id = 1;
@@ -64,58 +55,6 @@ message UpdateUserInfoReq {
 
 message UpdateUserInfoRsp {
     string user_id = 1;
-}
-
-// 充值
-message DepositReq {
-    string user_id = 1;
-    int64 amount = 2;
-    int64 bank_type = 3;
-    string bind_serial = 4;
-    string password = 5;
-}
-
-message DepositRsp {
-    string user_id = 1;
-    int64 balance = 2;
-}
-
-// 提现
-message WithdrawReq {
-    string user_id = 1;
-    int64 amount = 2;
-    int64 bank_type = 3;
-    string bind_serial = 4;
-    string password = 5;
-}
-
-message WithdrawRsp {
-    string user_id = 1;
-    int64 balance = 2;
-}
-
-// 获取用户流水
-message GetUserFlowReq {
-    string user_id = 1;
-    int32 offset = 2;  // 分页偏移量
-    int32 limit = 3;  // 分页大小
-}
-
-message GetUserFlowRsp {
-    string user_id = 1;
-    repeated GetUserFlowItemRsp flow = 2;
-    int32 flag = 3;  // 查询结束标记
-    int32 offset = 4;  // 分页偏移量
-}
-
-message GetUserFlowItemRsp {
-    string flow_id = 1;
-    string user_id = 2;
-    int64 amount = 3;
-    int32 biz_type = 4;
-    int32 flow_type = 5;
-    string create_time = 6;
-    int64 counterparty_id = 7;
 }
 
 service UserMgr {

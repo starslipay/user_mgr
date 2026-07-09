@@ -14,21 +14,12 @@ import (
 )
 
 type (
-	DepositReq         = user_mgr_pb.DepositReq
-	DepositRsp         = user_mgr_pb.DepositRsp
-	GetUserBalanceReq  = user_mgr_pb.GetUserBalanceReq
-	GetUserBalanceRsp  = user_mgr_pb.GetUserBalanceRsp
-	GetUserFlowItemRsp = user_mgr_pb.GetUserFlowItemRsp
-	GetUserFlowReq     = user_mgr_pb.GetUserFlowReq
-	GetUserFlowRsp     = user_mgr_pb.GetUserFlowRsp
-	GetUserInfoReq     = user_mgr_pb.GetUserInfoReq
-	GetUserInfoRsp     = user_mgr_pb.GetUserInfoRsp
-	RegUserReq         = user_mgr_pb.RegUserReq
-	RegUserRsp         = user_mgr_pb.RegUserRsp
-	UpdateUserInfoReq  = user_mgr_pb.UpdateUserInfoReq
-	UpdateUserInfoRsp  = user_mgr_pb.UpdateUserInfoRsp
-	WithdrawReq        = user_mgr_pb.WithdrawReq
-	WithdrawRsp        = user_mgr_pb.WithdrawRsp
+	GetUserInfoReq    = user_mgr_pb.GetUserInfoReq
+	GetUserInfoRsp    = user_mgr_pb.GetUserInfoRsp
+	RegUserReq        = user_mgr_pb.RegUserReq
+	RegUserRsp        = user_mgr_pb.RegUserRsp
+	UpdateUserInfoReq = user_mgr_pb.UpdateUserInfoReq
+	UpdateUserInfoRsp = user_mgr_pb.UpdateUserInfoRsp
 
 	UserMgr interface {
 		RegUser(ctx context.Context, in *RegUserReq, opts ...grpc.CallOption) (*RegUserRsp, error)
