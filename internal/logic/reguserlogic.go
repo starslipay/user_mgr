@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 
+	"github.com/starslipay/account_mgr/account_mgr_pb"
 	"github.com/starslipay/user_mgr/internal/svc"
 	"github.com/starslipay/user_mgr/model/mysql"
 	"github.com/starslipay/user_mgr/user_mgr_pb"
@@ -147,16 +148,19 @@ func (l *RegUserLogic) RegUser(in *user_mgr_pb.RegUserReq) (*user_mgr_pb.RegUser
 		}
 	}
 
-	// TODO 创建账户
-	// _, err = l.svcCtx.TAccountModelMaster.Insert(l.ctx, &mysql.TAccount{
-	// 	Uid:     uid,
-	// 	UserId:  in.UserId,
-	// 	Balance: 0,
-	// })
-	// if err != nil {
-	// 	l.Logger.Errorf("insert account failed: %v", err)
-	// 	return nil, err
-	// }
+	// 创建资金账户
+	createAccountRsp, err := l.svcCtx.AccountMgrRpcClient.CreateAccount(l.ctx, &account_mgr_pb.CreateAccountReq{
+		Uid:     uid,
+		UserId:  in.UserId,
+		CurType: 1, // 1-人民币
+	})
+	if err != nil {
+		l.Logger.Errorf("create account failed: %v", err)
+		return nil, err
+	}
+	if createAccountRsp.IsRepeat {
+		l.Logger.Info("create account repeat")
+	}
 
 	err = l.svcCtx.TRelationModelMaster.Update(l.ctx, &mysql.TRelation{
 		UserId: in.UserId,

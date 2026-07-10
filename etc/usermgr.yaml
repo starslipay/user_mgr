@@ -15,3 +15,11 @@ MasterDBConfig:
 SlaveDBConfig:
   DataSource: starslipay:payClipayA2026@tcp(mysql-slave.pay-ns.svc.cluster.local:3306)/user_db?charset=utf8mb4&parseTime=True&loc=Local&timeout=5s&readTimeout=10s&writeTimeout=10s
 
+AccountMgrRpcConfig:
+  Etcd:
+    Hosts:
+    - etcd-0.etcd.pay-ns.svc.cluster.local:2379
+    - etcd-1.etcd.pay-ns.svc.cluster.local:2379
+    - etcd-2.etcd.pay-ns.svc.cluster.local:2379
+    Key: accountmgr.rpc  # 注册到etcd的服务key，客户端要对应这个key
+  Timeout: 10000  # 超时时间，单位毫秒

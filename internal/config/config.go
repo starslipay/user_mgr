@@ -10,4 +10,5 @@ type Config struct {
 	SlaveDBConfig struct {
 		DataSource string
 	}
+	AccountMgrRpcConfig zrpc.RpcClientConf
 }

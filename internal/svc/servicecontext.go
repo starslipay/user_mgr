@@ -1,19 +1,24 @@
 package svc
 
 import (
+	"github.com/starslipay/account_mgr/account_mgr_pb"
 	"github.com/starslipay/user_mgr/internal/config"
 	"github.com/starslipay/user_mgr/model/mysql"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
+	"github.com/zeromicro/go-zero/zrpc"
 )
 
 type ServiceContext struct {
-	Config                 config.Config
+	Config config.Config
+
 	TRelationModelMaster   mysql.TRelationModel
 	TUserInfoModelMaster   mysql.TUserInfoModel
 	TUidSegmentModelMaster mysql.TUidSegmentModel
 
 	TRelationModelSlave mysql.TRelationModel
 	TUserInfoModelSlave mysql.TUserInfoModel
+
+	AccountMgrRpcClient account_mgr_pb.AccountMgrClient
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
@@ -27,5 +32,7 @@ func NewServiceContext(c config.Config) *ServiceContext {
 
 		TRelationModelSlave: mysql.NewTRelationModel(SqlSlaveConn),
 		TUserInfoModelSlave: mysql.NewTUserInfoModel(SqlSlaveConn),
+
+		AccountMgrRpcClient: account_mgr_pb.NewAccountMgrClient(zrpc.MustNewClient(c.AccountMgrRpcConfig).Conn()),
 	}
 }
