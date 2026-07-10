@@ -21,6 +21,7 @@ const _ = grpc.SupportPackageIsVersion9
 const (
 	UserMgr_RegUser_FullMethodName        = "/user_mgr.UserMgr/RegUser"
 	UserMgr_UpdateUserInfo_FullMethodName = "/user_mgr.UserMgr/UpdateUserInfo"
+	UserMgr_GetRelation_FullMethodName    = "/user_mgr.UserMgr/GetRelation"
 	UserMgr_GetUserInfo_FullMethodName    = "/user_mgr.UserMgr/GetUserInfo"
 	UserMgr_CheckPassword_FullMethodName  = "/user_mgr.UserMgr/CheckPassword"
 )
@@ -31,6 +32,7 @@ const (
 type UserMgrClient interface {
 	RegUser(ctx context.Context, in *RegUserReq, opts ...grpc.CallOption) (*RegUserRsp, error)
 	UpdateUserInfo(ctx context.Context, in *UpdateUserInfoReq, opts ...grpc.CallOption) (*UpdateUserInfoRsp, error)
+	GetRelation(ctx context.Context, in *GetRelationReq, opts ...grpc.CallOption) (*GetRelationRsp, error)
 	GetUserInfo(ctx context.Context, in *GetUserInfoReq, opts ...grpc.CallOption) (*GetUserInfoRsp, error)
 	CheckPassword(ctx context.Context, in *CheckPasswordReq, opts ...grpc.CallOption) (*CheckPasswordRsp, error)
 }
@@ -63,6 +65,16 @@ func (c *userMgrClient) UpdateUserInfo(ctx context.Context, in *UpdateUserInfoRe
 	return out, nil
 }
 
+func (c *userMgrClient) GetRelation(ctx context.Context, in *GetRelationReq, opts ...grpc.CallOption) (*GetRelationRsp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetRelationRsp)
+	err := c.cc.Invoke(ctx, UserMgr_GetRelation_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *userMgrClient) GetUserInfo(ctx context.Context, in *GetUserInfoReq, opts ...grpc.CallOption) (*GetUserInfoRsp, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(GetUserInfoRsp)
@@ -89,6 +101,7 @@ func (c *userMgrClient) CheckPassword(ctx context.Context, in *CheckPasswordReq,
 type UserMgrServer interface {
 	RegUser(context.Context, *RegUserReq) (*RegUserRsp, error)
 	UpdateUserInfo(context.Context, *UpdateUserInfoReq) (*UpdateUserInfoRsp, error)
+	GetRelation(context.Context, *GetRelationReq) (*GetRelationRsp, error)
 	GetUserInfo(context.Context, *GetUserInfoReq) (*GetUserInfoRsp, error)
 	CheckPassword(context.Context, *CheckPasswordReq) (*CheckPasswordRsp, error)
 	mustEmbedUnimplementedUserMgrServer()
@@ -106,6 +119,9 @@ func (UnimplementedUserMgrServer) RegUser(context.Context, *RegUserReq) (*RegUse
 }
 func (UnimplementedUserMgrServer) UpdateUserInfo(context.Context, *UpdateUserInfoReq) (*UpdateUserInfoRsp, error) {
 	return nil, status.Error(codes.Unimplemented, "method UpdateUserInfo not implemented")
+}
+func (UnimplementedUserMgrServer) GetRelation(context.Context, *GetRelationReq) (*GetRelationRsp, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetRelation not implemented")
 }
 func (UnimplementedUserMgrServer) GetUserInfo(context.Context, *GetUserInfoReq) (*GetUserInfoRsp, error) {
 	return nil, status.Error(codes.Unimplemented, "method GetUserInfo not implemented")
@@ -170,6 +186,24 @@ func _UserMgr_UpdateUserInfo_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
+func _UserMgr_GetRelation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetRelationReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserMgrServer).GetRelation(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserMgr_GetRelation_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserMgrServer).GetRelation(ctx, req.(*GetRelationReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _UserMgr_GetUserInfo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetUserInfoReq)
 	if err := dec(in); err != nil {
@@ -220,6 +254,10 @@ var UserMgr_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateUserInfo",
 			Handler:    _UserMgr_UpdateUserInfo_Handler,
+		},
+		{
+			MethodName: "GetRelation",
+			Handler:    _UserMgr_GetRelation_Handler,
 		},
 		{
 			MethodName: "GetUserInfo",

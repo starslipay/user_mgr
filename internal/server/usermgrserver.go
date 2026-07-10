@@ -33,6 +33,11 @@ func (s *UserMgrServer) UpdateUserInfo(ctx context.Context, in *user_mgr_pb.Upda
 	return l.UpdateUserInfo(in)
 }
 
+func (s *UserMgrServer) GetRelation(ctx context.Context, in *user_mgr_pb.GetRelationReq) (*user_mgr_pb.GetRelationRsp, error) {
+	l := logic.NewGetRelationLogic(ctx, s.svcCtx)
+	return l.GetRelation(in)
+}
+
 func (s *UserMgrServer) GetUserInfo(ctx context.Context, in *user_mgr_pb.GetUserInfoReq) (*user_mgr_pb.GetUserInfoRsp, error) {
 	l := logic.NewGetUserInfoLogic(ctx, s.svcCtx)
 	return l.GetUserInfo(in)

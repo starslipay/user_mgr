@@ -138,6 +138,102 @@ func (x *RegUserReq) GetIdCard() string {
 	return ""
 }
 
+type GetRelationReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	UserId        string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetRelationReq) Reset() {
+	*x = GetRelationReq{}
+	mi := &file_user_mgr_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetRelationReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetRelationReq) ProtoMessage() {}
+
+func (x *GetRelationReq) ProtoReflect() protoreflect.Message {
+	mi := &file_user_mgr_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetRelationReq.ProtoReflect.Descriptor instead.
+func (*GetRelationReq) Descriptor() ([]byte, []int) {
+	return file_user_mgr_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *GetRelationReq) GetUserId() string {
+	if x != nil {
+		return x.UserId
+	}
+	return ""
+}
+
+type GetRelationRsp struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	UserId        string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	Uid           int64                  `protobuf:"varint,2,opt,name=uid,proto3" json:"uid,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetRelationRsp) Reset() {
+	*x = GetRelationRsp{}
+	mi := &file_user_mgr_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetRelationRsp) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetRelationRsp) ProtoMessage() {}
+
+func (x *GetRelationRsp) ProtoReflect() protoreflect.Message {
+	mi := &file_user_mgr_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetRelationRsp.ProtoReflect.Descriptor instead.
+func (*GetRelationRsp) Descriptor() ([]byte, []int) {
+	return file_user_mgr_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *GetRelationRsp) GetUserId() string {
+	if x != nil {
+		return x.UserId
+	}
+	return ""
+}
+
+func (x *GetRelationRsp) GetUid() int64 {
+	if x != nil {
+		return x.Uid
+	}
+	return 0
+}
+
 // 注册用户Rsp
 type RegUserRsp struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
@@ -148,7 +244,7 @@ type RegUserRsp struct {
 
 func (x *RegUserRsp) Reset() {
 	*x = RegUserRsp{}
-	mi := &file_user_mgr_proto_msgTypes[1]
+	mi := &file_user_mgr_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -160,7 +256,7 @@ func (x *RegUserRsp) String() string {
 func (*RegUserRsp) ProtoMessage() {}
 
 func (x *RegUserRsp) ProtoReflect() protoreflect.Message {
-	mi := &file_user_mgr_proto_msgTypes[1]
+	mi := &file_user_mgr_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -173,7 +269,7 @@ func (x *RegUserRsp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RegUserRsp.ProtoReflect.Descriptor instead.
 func (*RegUserRsp) Descriptor() ([]byte, []int) {
-	return file_user_mgr_proto_rawDescGZIP(), []int{1}
+	return file_user_mgr_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *RegUserRsp) GetUserId() string {
@@ -192,7 +288,7 @@ type GetUserInfoReq struct {
 
 func (x *GetUserInfoReq) Reset() {
 	*x = GetUserInfoReq{}
-	mi := &file_user_mgr_proto_msgTypes[2]
+	mi := &file_user_mgr_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -204,7 +300,7 @@ func (x *GetUserInfoReq) String() string {
 func (*GetUserInfoReq) ProtoMessage() {}
 
 func (x *GetUserInfoReq) ProtoReflect() protoreflect.Message {
-	mi := &file_user_mgr_proto_msgTypes[2]
+	mi := &file_user_mgr_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -217,7 +313,7 @@ func (x *GetUserInfoReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetUserInfoReq.ProtoReflect.Descriptor instead.
 func (*GetUserInfoReq) Descriptor() ([]byte, []int) {
-	return file_user_mgr_proto_rawDescGZIP(), []int{2}
+	return file_user_mgr_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *GetUserInfoReq) GetUserId() string {
@@ -238,13 +334,14 @@ type GetUserInfoRsp struct {
 	Email         string                 `protobuf:"bytes,7,opt,name=email,proto3" json:"email,omitempty"`
 	IdType        int32                  `protobuf:"varint,8,opt,name=id_type,json=idType,proto3" json:"id_type,omitempty"`
 	IdCard        string                 `protobuf:"bytes,9,opt,name=id_card,json=idCard,proto3" json:"id_card,omitempty"`
+	Uid           int64                  `protobuf:"varint,10,opt,name=uid,proto3" json:"uid,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *GetUserInfoRsp) Reset() {
 	*x = GetUserInfoRsp{}
-	mi := &file_user_mgr_proto_msgTypes[3]
+	mi := &file_user_mgr_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -256,7 +353,7 @@ func (x *GetUserInfoRsp) String() string {
 func (*GetUserInfoRsp) ProtoMessage() {}
 
 func (x *GetUserInfoRsp) ProtoReflect() protoreflect.Message {
-	mi := &file_user_mgr_proto_msgTypes[3]
+	mi := &file_user_mgr_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -269,7 +366,7 @@ func (x *GetUserInfoRsp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetUserInfoRsp.ProtoReflect.Descriptor instead.
 func (*GetUserInfoRsp) Descriptor() ([]byte, []int) {
-	return file_user_mgr_proto_rawDescGZIP(), []int{3}
+	return file_user_mgr_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *GetUserInfoRsp) GetUserId() string {
@@ -335,6 +432,13 @@ func (x *GetUserInfoRsp) GetIdCard() string {
 	return ""
 }
 
+func (x *GetUserInfoRsp) GetUid() int64 {
+	if x != nil {
+		return x.Uid
+	}
+	return 0
+}
+
 // 更新用户信息
 type UpdateUserInfoReq struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
@@ -353,7 +457,7 @@ type UpdateUserInfoReq struct {
 
 func (x *UpdateUserInfoReq) Reset() {
 	*x = UpdateUserInfoReq{}
-	mi := &file_user_mgr_proto_msgTypes[4]
+	mi := &file_user_mgr_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -365,7 +469,7 @@ func (x *UpdateUserInfoReq) String() string {
 func (*UpdateUserInfoReq) ProtoMessage() {}
 
 func (x *UpdateUserInfoReq) ProtoReflect() protoreflect.Message {
-	mi := &file_user_mgr_proto_msgTypes[4]
+	mi := &file_user_mgr_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -378,7 +482,7 @@ func (x *UpdateUserInfoReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateUserInfoReq.ProtoReflect.Descriptor instead.
 func (*UpdateUserInfoReq) Descriptor() ([]byte, []int) {
-	return file_user_mgr_proto_rawDescGZIP(), []int{4}
+	return file_user_mgr_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *UpdateUserInfoReq) GetUserId() string {
@@ -453,7 +557,7 @@ type UpdateUserInfoRsp struct {
 
 func (x *UpdateUserInfoRsp) Reset() {
 	*x = UpdateUserInfoRsp{}
-	mi := &file_user_mgr_proto_msgTypes[5]
+	mi := &file_user_mgr_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -465,7 +569,7 @@ func (x *UpdateUserInfoRsp) String() string {
 func (*UpdateUserInfoRsp) ProtoMessage() {}
 
 func (x *UpdateUserInfoRsp) ProtoReflect() protoreflect.Message {
-	mi := &file_user_mgr_proto_msgTypes[5]
+	mi := &file_user_mgr_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -478,7 +582,7 @@ func (x *UpdateUserInfoRsp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateUserInfoRsp.ProtoReflect.Descriptor instead.
 func (*UpdateUserInfoRsp) Descriptor() ([]byte, []int) {
-	return file_user_mgr_proto_rawDescGZIP(), []int{5}
+	return file_user_mgr_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *UpdateUserInfoRsp) GetUserId() string {
@@ -498,7 +602,7 @@ type CheckPasswordReq struct {
 
 func (x *CheckPasswordReq) Reset() {
 	*x = CheckPasswordReq{}
-	mi := &file_user_mgr_proto_msgTypes[6]
+	mi := &file_user_mgr_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -510,7 +614,7 @@ func (x *CheckPasswordReq) String() string {
 func (*CheckPasswordReq) ProtoMessage() {}
 
 func (x *CheckPasswordReq) ProtoReflect() protoreflect.Message {
-	mi := &file_user_mgr_proto_msgTypes[6]
+	mi := &file_user_mgr_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -523,7 +627,7 @@ func (x *CheckPasswordReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CheckPasswordReq.ProtoReflect.Descriptor instead.
 func (*CheckPasswordReq) Descriptor() ([]byte, []int) {
-	return file_user_mgr_proto_rawDescGZIP(), []int{6}
+	return file_user_mgr_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *CheckPasswordReq) GetUserId() string {
@@ -549,7 +653,7 @@ type CheckPasswordRsp struct {
 
 func (x *CheckPasswordRsp) Reset() {
 	*x = CheckPasswordRsp{}
-	mi := &file_user_mgr_proto_msgTypes[7]
+	mi := &file_user_mgr_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -561,7 +665,7 @@ func (x *CheckPasswordRsp) String() string {
 func (*CheckPasswordRsp) ProtoMessage() {}
 
 func (x *CheckPasswordRsp) ProtoReflect() protoreflect.Message {
-	mi := &file_user_mgr_proto_msgTypes[7]
+	mi := &file_user_mgr_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -574,7 +678,7 @@ func (x *CheckPasswordRsp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CheckPasswordRsp.ProtoReflect.Descriptor instead.
 func (*CheckPasswordRsp) Descriptor() ([]byte, []int) {
-	return file_user_mgr_proto_rawDescGZIP(), []int{7}
+	return file_user_mgr_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *CheckPasswordRsp) GetCheckResult() int32 {
@@ -601,12 +705,17 @@ const file_user_mgr_proto_rawDesc = "" +
 	"\x05email\x18\b \x01(\tR\x05email\x12\x17\n" +
 	"\aid_type\x18\t \x01(\x05R\x06idType\x12\x17\n" +
 	"\aid_card\x18\n" +
-	" \x01(\tR\x06idCard\"%\n" +
+	" \x01(\tR\x06idCard\")\n" +
+	"\x0eGetRelationReq\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\tR\x06userId\";\n" +
+	"\x0eGetRelationRsp\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x10\n" +
+	"\x03uid\x18\x02 \x01(\x03R\x03uid\"%\n" +
 	"\n" +
 	"RegUserRsp\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\tR\x06userId\")\n" +
 	"\x0eGetUserInfoReq\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\tR\x06userId\"\xdf\x01\n" +
+	"\auser_id\x18\x01 \x01(\tR\x06userId\"\xf1\x01\n" +
 	"\x0eGetUserInfoRsp\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12\x16\n" +
@@ -616,7 +725,9 @@ const file_user_mgr_proto_rawDesc = "" +
 	"\x05phone\x18\x06 \x01(\tR\x05phone\x12\x14\n" +
 	"\x05email\x18\a \x01(\tR\x05email\x12\x17\n" +
 	"\aid_type\x18\b \x01(\x05R\x06idType\x12\x17\n" +
-	"\aid_card\x18\t \x01(\tR\x06idCard\"\xe2\x01\n" +
+	"\aid_card\x18\t \x01(\tR\x06idCard\x12\x10\n" +
+	"\x03uid\x18\n" +
+	" \x01(\x03R\x03uid\"\xe2\x01\n" +
 	"\x11UpdateUserInfoReq\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12\x16\n" +
@@ -633,10 +744,11 @@ const file_user_mgr_proto_rawDesc = "" +
 	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x1a\n" +
 	"\bpassword\x18\x02 \x01(\tR\bpassword\"5\n" +
 	"\x10CheckPasswordRsp\x12!\n" +
-	"\fcheck_result\x18\x01 \x01(\x05R\vcheckResult2\x98\x02\n" +
+	"\fcheck_result\x18\x01 \x01(\x05R\vcheckResult2\xdb\x02\n" +
 	"\aUserMgr\x125\n" +
 	"\aRegUser\x12\x14.user_mgr.RegUserReq\x1a\x14.user_mgr.RegUserRsp\x12J\n" +
 	"\x0eUpdateUserInfo\x12\x1b.user_mgr.UpdateUserInfoReq\x1a\x1b.user_mgr.UpdateUserInfoRsp\x12A\n" +
+	"\vGetRelation\x12\x18.user_mgr.GetRelationReq\x1a\x18.user_mgr.GetRelationRsp\x12A\n" +
 	"\vGetUserInfo\x12\x18.user_mgr.GetUserInfoReq\x1a\x18.user_mgr.GetUserInfoRsp\x12G\n" +
 	"\rCheckPassword\x12\x1a.user_mgr.CheckPasswordReq\x1a\x1a.user_mgr.CheckPasswordRspB\x0fZ\r./user_mgr_pbb\x06proto3"
 
@@ -652,28 +764,32 @@ func file_user_mgr_proto_rawDescGZIP() []byte {
 	return file_user_mgr_proto_rawDescData
 }
 
-var file_user_mgr_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
+var file_user_mgr_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
 var file_user_mgr_proto_goTypes = []any{
 	(*RegUserReq)(nil),        // 0: user_mgr.RegUserReq
-	(*RegUserRsp)(nil),        // 1: user_mgr.RegUserRsp
-	(*GetUserInfoReq)(nil),    // 2: user_mgr.GetUserInfoReq
-	(*GetUserInfoRsp)(nil),    // 3: user_mgr.GetUserInfoRsp
-	(*UpdateUserInfoReq)(nil), // 4: user_mgr.UpdateUserInfoReq
-	(*UpdateUserInfoRsp)(nil), // 5: user_mgr.UpdateUserInfoRsp
-	(*CheckPasswordReq)(nil),  // 6: user_mgr.CheckPasswordReq
-	(*CheckPasswordRsp)(nil),  // 7: user_mgr.CheckPasswordRsp
+	(*GetRelationReq)(nil),    // 1: user_mgr.GetRelationReq
+	(*GetRelationRsp)(nil),    // 2: user_mgr.GetRelationRsp
+	(*RegUserRsp)(nil),        // 3: user_mgr.RegUserRsp
+	(*GetUserInfoReq)(nil),    // 4: user_mgr.GetUserInfoReq
+	(*GetUserInfoRsp)(nil),    // 5: user_mgr.GetUserInfoRsp
+	(*UpdateUserInfoReq)(nil), // 6: user_mgr.UpdateUserInfoReq
+	(*UpdateUserInfoRsp)(nil), // 7: user_mgr.UpdateUserInfoRsp
+	(*CheckPasswordReq)(nil),  // 8: user_mgr.CheckPasswordReq
+	(*CheckPasswordRsp)(nil),  // 9: user_mgr.CheckPasswordRsp
 }
 var file_user_mgr_proto_depIdxs = []int32{
 	0, // 0: user_mgr.UserMgr.RegUser:input_type -> user_mgr.RegUserReq
-	4, // 1: user_mgr.UserMgr.UpdateUserInfo:input_type -> user_mgr.UpdateUserInfoReq
-	2, // 2: user_mgr.UserMgr.GetUserInfo:input_type -> user_mgr.GetUserInfoReq
-	6, // 3: user_mgr.UserMgr.CheckPassword:input_type -> user_mgr.CheckPasswordReq
-	1, // 4: user_mgr.UserMgr.RegUser:output_type -> user_mgr.RegUserRsp
-	5, // 5: user_mgr.UserMgr.UpdateUserInfo:output_type -> user_mgr.UpdateUserInfoRsp
-	3, // 6: user_mgr.UserMgr.GetUserInfo:output_type -> user_mgr.GetUserInfoRsp
-	7, // 7: user_mgr.UserMgr.CheckPassword:output_type -> user_mgr.CheckPasswordRsp
-	4, // [4:8] is the sub-list for method output_type
-	0, // [0:4] is the sub-list for method input_type
+	6, // 1: user_mgr.UserMgr.UpdateUserInfo:input_type -> user_mgr.UpdateUserInfoReq
+	1, // 2: user_mgr.UserMgr.GetRelation:input_type -> user_mgr.GetRelationReq
+	4, // 3: user_mgr.UserMgr.GetUserInfo:input_type -> user_mgr.GetUserInfoReq
+	8, // 4: user_mgr.UserMgr.CheckPassword:input_type -> user_mgr.CheckPasswordReq
+	3, // 5: user_mgr.UserMgr.RegUser:output_type -> user_mgr.RegUserRsp
+	7, // 6: user_mgr.UserMgr.UpdateUserInfo:output_type -> user_mgr.UpdateUserInfoRsp
+	2, // 7: user_mgr.UserMgr.GetRelation:output_type -> user_mgr.GetRelationRsp
+	5, // 8: user_mgr.UserMgr.GetUserInfo:output_type -> user_mgr.GetUserInfoRsp
+	9, // 9: user_mgr.UserMgr.CheckPassword:output_type -> user_mgr.CheckPasswordRsp
+	5, // [5:10] is the sub-list for method output_type
+	0, // [0:5] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
 	0, // [0:0] is the sub-list for extension extendee
 	0, // [0:0] is the sub-list for field type_name
@@ -690,7 +806,7 @@ func file_user_mgr_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_user_mgr_proto_rawDesc), len(file_user_mgr_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   8,
+			NumMessages:   10,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

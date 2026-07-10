@@ -18,6 +18,15 @@ message RegUserReq {
     string id_card = 10;
 }
 
+message GetRelationReq {
+    string user_id = 1;
+}
+
+message GetRelationRsp {
+    string user_id = 1;
+    int64 uid = 2;
+}
+
 // 注册用户Rsp
 message RegUserRsp {
     string user_id = 1;
@@ -37,6 +46,7 @@ message GetUserInfoRsp {
     string email = 7;
     int32 id_type = 8;
     string id_card = 9;
+    int64 uid = 10;
 }
 
 // 更新用户信息
@@ -68,6 +78,7 @@ message CheckPasswordRsp {
 service UserMgr {
     rpc RegUser(RegUserReq) returns (RegUserRsp);
     rpc UpdateUserInfo(UpdateUserInfoReq) returns (UpdateUserInfoRsp);
+    rpc GetRelation(GetRelationReq) returns (GetRelationRsp);
     rpc GetUserInfo(GetUserInfoReq) returns (GetUserInfoRsp);
     rpc CheckPassword(CheckPasswordReq) returns (CheckPasswordRsp);
 }

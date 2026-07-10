@@ -16,6 +16,8 @@ import (
 type (
 	CheckPasswordReq  = user_mgr_pb.CheckPasswordReq
 	CheckPasswordRsp  = user_mgr_pb.CheckPasswordRsp
+	GetRelationReq    = user_mgr_pb.GetRelationReq
+	GetRelationRsp    = user_mgr_pb.GetRelationRsp
 	GetUserInfoReq    = user_mgr_pb.GetUserInfoReq
 	GetUserInfoRsp    = user_mgr_pb.GetUserInfoRsp
 	RegUserReq        = user_mgr_pb.RegUserReq
@@ -26,6 +28,7 @@ type (
 	UserMgr interface {
 		RegUser(ctx context.Context, in *RegUserReq, opts ...grpc.CallOption) (*RegUserRsp, error)
 		UpdateUserInfo(ctx context.Context, in *UpdateUserInfoReq, opts ...grpc.CallOption) (*UpdateUserInfoRsp, error)
+		GetRelation(ctx context.Context, in *GetRelationReq, opts ...grpc.CallOption) (*GetRelationRsp, error)
 		GetUserInfo(ctx context.Context, in *GetUserInfoReq, opts ...grpc.CallOption) (*GetUserInfoRsp, error)
 		CheckPassword(ctx context.Context, in *CheckPasswordReq, opts ...grpc.CallOption) (*CheckPasswordRsp, error)
 	}
@@ -49,6 +52,11 @@ func (m *defaultUserMgr) RegUser(ctx context.Context, in *RegUserReq, opts ...gr
 func (m *defaultUserMgr) UpdateUserInfo(ctx context.Context, in *UpdateUserInfoReq, opts ...grpc.CallOption) (*UpdateUserInfoRsp, error) {
 	client := user_mgr_pb.NewUserMgrClient(m.cli.Conn())
 	return client.UpdateUserInfo(ctx, in, opts...)
+}
+
+func (m *defaultUserMgr) GetRelation(ctx context.Context, in *GetRelationReq, opts ...grpc.CallOption) (*GetRelationRsp, error) {
+	client := user_mgr_pb.NewUserMgrClient(m.cli.Conn())
+	return client.GetRelation(ctx, in, opts...)
 }
 
 func (m *defaultUserMgr) GetUserInfo(ctx context.Context, in *GetUserInfoReq, opts ...grpc.CallOption) (*GetUserInfoRsp, error) {
