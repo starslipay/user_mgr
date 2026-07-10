@@ -37,10 +37,13 @@ func (l *RegUserLogic) RegUser(in *user_mgr_pb.RegUserReq) (*user_mgr_pb.RegUser
 		return nil, err
 	}
 
+	isExistRelation := true
 	// 先查询relation是否已经存在
 	relation, err := l.svcCtx.TRelationModelMaster.FindOne(l.ctx, in.UserId)
 	if err != nil {
-		if err != sqlx.ErrNotFound {
+		if err == sqlx.ErrNotFound {
+			isExistRelation = false
+		} else {
 			return nil, err
 		}
 	} else {
@@ -54,10 +57,10 @@ func (l *RegUserLogic) RegUser(in *user_mgr_pb.RegUserReq) (*user_mgr_pb.RegUser
 	}
 
 	var uid int64
-	if relation == nil {
-		// 生成用户ID
-		uid, err := l.generateUid()
-
+	if isExistRelation {
+		uid = relation.Uid
+	} else {
+		uid, err = l.generateUid()
 		if err != nil {
 			l.Logger.Errorf("generateUid failed: %v", err)
 			return nil, err
@@ -72,17 +75,18 @@ func (l *RegUserLogic) RegUser(in *user_mgr_pb.RegUserReq) (*user_mgr_pb.RegUser
 			l.Logger.Errorf("insert relation failed: %v", err)
 			return nil, err
 		}
-	} else {
-		uid = relation.Uid
 	}
 
+	isExistUserInfo := true
 	userInfo, err := l.svcCtx.TUserInfoModelMaster.FindOne(l.ctx, uid)
 	if err != nil {
-		if err != sqlx.ErrNotFound {
+		if err == sqlx.ErrNotFound {
+			isExistUserInfo = false
+		} else {
 			return nil, err
 		}
 	}
-	if userInfo == nil {
+	if !isExistUserInfo {
 		// 插入用户信息
 		_, err = l.svcCtx.TUserInfoModelMaster.Insert(l.ctx, &mysql.TUserInfo{
 			Uid:      uid,
@@ -102,20 +106,18 @@ func (l *RegUserLogic) RegUser(in *user_mgr_pb.RegUserReq) (*user_mgr_pb.RegUser
 			return nil, err
 		}
 	} else {
+		userInfo.UserId = in.UserId
+		userInfo.Password = in.Password
+		userInfo.Name = in.Name
+		userInfo.Gender = int64(in.Gender)
+		userInfo.Age = int64(in.Age)
+		userInfo.Address = in.Address
+		userInfo.Phone = in.Phone
+		userInfo.Email = in.Email
+		userInfo.IdType = int64(in.IdType)
+		userInfo.IdCard = in.IdCard
 		// 更新用户信息
-		err = l.svcCtx.TUserInfoModelMaster.Update(l.ctx, &mysql.TUserInfo{
-			Uid:      uid,
-			UserId:   in.UserId,
-			Password: in.Password,
-			Name:     in.Name,
-			Gender:   int64(in.Gender),
-			Age:      int64(in.Age),
-			Address:  in.Address,
-			Phone:    in.Phone,
-			Email:    in.Email,
-			IdType:   int64(in.IdType),
-			IdCard:   in.IdCard,
-		})
+		err = l.svcCtx.TUserInfoModelMaster.Update(l.ctx, userInfo)
 		if err != nil {
 			l.Logger.Errorf("update user info failed: %v", err)
 			return nil, err
