@@ -21,7 +21,6 @@ message RegUserReq {
 // 注册用户Rsp
 message RegUserRsp {
     string user_id = 1;
-    int32 is_repeat = 2;
 }
 
 message GetUserInfoReq {

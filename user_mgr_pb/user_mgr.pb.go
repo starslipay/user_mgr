@@ -142,7 +142,6 @@ func (x *RegUserReq) GetIdCard() string {
 type RegUserRsp struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	UserId        string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	IsRepeat      int32                  `protobuf:"varint,2,opt,name=is_repeat,json=isRepeat,proto3" json:"is_repeat,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -182,13 +181,6 @@ func (x *RegUserRsp) GetUserId() string {
 		return x.UserId
 	}
 	return ""
-}
-
-func (x *RegUserRsp) GetIsRepeat() int32 {
-	if x != nil {
-		return x.IsRepeat
-	}
-	return 0
 }
 
 type GetUserInfoReq struct {
@@ -513,11 +505,10 @@ const file_user_mgr_proto_rawDesc = "" +
 	"\x05email\x18\b \x01(\tR\x05email\x12\x17\n" +
 	"\aid_type\x18\t \x01(\x05R\x06idType\x12\x17\n" +
 	"\aid_card\x18\n" +
-	" \x01(\tR\x06idCard\"B\n" +
+	" \x01(\tR\x06idCard\"%\n" +
 	"\n" +
 	"RegUserRsp\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x1b\n" +
-	"\tis_repeat\x18\x02 \x01(\x05R\bisRepeat\")\n" +
+	"\auser_id\x18\x01 \x01(\tR\x06userId\")\n" +
 	"\x0eGetUserInfoReq\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\tR\x06userId\"\xdf\x01\n" +
 	"\x0eGetUserInfoRsp\x12\x17\n" +

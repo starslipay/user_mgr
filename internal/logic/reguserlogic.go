@@ -44,75 +44,87 @@ func (l *RegUserLogic) RegUser(in *user_mgr_pb.RegUserReq) (*user_mgr_pb.RegUser
 			return nil, err
 		}
 	} else {
-		if relation.State == RelationStateRegistering {
+		if RelationStateRegistering == relation.State {
 			// 继续关联中，不执行后续操作
-		} else if relation.State == RelationStateRegistered {
-			// 重入关联成功的用户, 要校验关键信息一致性
-			userInfoTmp, err := l.svcCtx.TUserInfoModelMaster.FindOne(l.ctx, relation.Uid)
-			if err != nil {
-				return nil, err
-			}
-
-			if userInfoTmp.Name != in.Name ||
-				userInfoTmp.Password != in.Password ||
-				userInfoTmp.Age != int64(in.Age) ||
-				userInfoTmp.Gender != int64(in.Gender) ||
-				userInfoTmp.Address != in.Address ||
-				userInfoTmp.Phone != in.Phone ||
-				userInfoTmp.Email != in.Email ||
-				userInfoTmp.IdType != int64(in.IdType) ||
-				userInfoTmp.IdCard != in.IdCard {
-				return nil, errors.New("user info is not consistent")
-			}
-
-			return &user_mgr_pb.RegUserRsp{
-				UserId:   in.UserId,
-				IsRepeat: 1,
-			}, nil
+		} else if RelationStateRegistered == relation.State {
+			return nil, errors.New("user already registered")
 		} else {
 			return nil, errors.New("relation state is not registering or registered")
 		}
 	}
 
-	// 生成用户ID
-	newUid, err := l.generateUid()
+	var uid int64
+	if relation == nil {
+		// 生成用户ID
+		uid, err := l.generateUid()
 
-	if err != nil {
-		l.Logger.Errorf("generateUid failed: %v", err)
-		return nil, err
+		if err != nil {
+			l.Logger.Errorf("generateUid failed: %v", err)
+			return nil, err
+		}
+
+		_, err = l.svcCtx.TRelationModelMaster.Insert(l.ctx, &mysql.TRelation{
+			UserId: in.UserId,
+			Uid:    uid,
+			State:  RelationStateRegistering, // 注册中
+		})
+		if err != nil {
+			l.Logger.Errorf("insert relation failed: %v", err)
+			return nil, err
+		}
+	} else {
+		uid = relation.Uid
 	}
 
-	_, err = l.svcCtx.TRelationModelMaster.Insert(l.ctx, &mysql.TRelation{
-		UserId: in.UserId,
-		Uid:    newUid,
-		State:  RelationStateRegistering, // 注册中
-	})
+	userInfo, err := l.svcCtx.TUserInfoModelMaster.FindOne(l.ctx, uid)
 	if err != nil {
-		l.Logger.Errorf("insert relation failed: %v", err)
-		return nil, err
+		if err != sqlx.ErrNotFound {
+			return nil, err
+		}
+	}
+	if userInfo == nil {
+		// 插入用户信息
+		_, err = l.svcCtx.TUserInfoModelMaster.Insert(l.ctx, &mysql.TUserInfo{
+			Uid:      uid,
+			UserId:   in.UserId,
+			Password: in.Password,
+			Name:     in.Name,
+			Gender:   int64(in.Gender),
+			Age:      int64(in.Age),
+			Address:  in.Address,
+			Phone:    in.Phone,
+			Email:    in.Email,
+			IdType:   int64(in.IdType),
+			IdCard:   in.IdCard,
+		})
+		if err != nil {
+			l.Logger.Errorf("insert user info failed: %v", err)
+			return nil, err
+		}
+	} else {
+		// 更新用户信息
+		err = l.svcCtx.TUserInfoModelMaster.Update(l.ctx, &mysql.TUserInfo{
+			Uid:      uid,
+			UserId:   in.UserId,
+			Password: in.Password,
+			Name:     in.Name,
+			Gender:   int64(in.Gender),
+			Age:      int64(in.Age),
+			Address:  in.Address,
+			Phone:    in.Phone,
+			Email:    in.Email,
+			IdType:   int64(in.IdType),
+			IdCard:   in.IdCard,
+		})
+		if err != nil {
+			l.Logger.Errorf("update user info failed: %v", err)
+			return nil, err
+		}
 	}
 
-	// 插入用户信息
-	_, err = l.svcCtx.TUserInfoModelMaster.Insert(l.ctx, &mysql.TUserInfo{
-		Uid:      newUid,
-		UserId:   in.UserId,
-		Password: in.Password,
-		Name:     in.Name,
-		Gender:   int64(in.Gender),
-		Age:      int64(in.Age),
-		Address:  in.Address,
-		Phone:    in.Phone,
-		Email:    in.Email,
-		IdType:   int64(in.IdType),
-		IdCard:   in.IdCard,
-	})
-	if err != nil {
-		l.Logger.Errorf("insert user info failed: %v", err)
-		return nil, err
-	}
-
+	// TODO 创建账户
 	// _, err = l.svcCtx.TAccountModelMaster.Insert(l.ctx, &mysql.TAccount{
-	// 	Uid:     newUid,
+	// 	Uid:     uid,
 	// 	UserId:  in.UserId,
 	// 	Balance: 0,
 	// })
@@ -123,7 +135,7 @@ func (l *RegUserLogic) RegUser(in *user_mgr_pb.RegUserReq) (*user_mgr_pb.RegUser
 
 	err = l.svcCtx.TRelationModelMaster.Update(l.ctx, &mysql.TRelation{
 		UserId: in.UserId,
-		Uid:    newUid,
+		Uid:    uid,
 		State:  RelationStateRegistered, // 注册成功
 	})
 	if err != nil {
@@ -132,8 +144,7 @@ func (l *RegUserLogic) RegUser(in *user_mgr_pb.RegUserReq) (*user_mgr_pb.RegUser
 	}
 
 	return &user_mgr_pb.RegUserRsp{
-		UserId:   in.UserId,
-		IsRepeat: 0,
+		UserId: in.UserId,
 	}, nil
 }
 
