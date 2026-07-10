@@ -56,10 +56,20 @@ message UpdateUserInfoRsp {
     string user_id = 1;
 }
 
+message CheckPasswordReq {
+    string user_id = 1;
+    string password = 2;
+}
+
+message CheckPasswordRsp {
+    int32 check_result = 1;
+}
+
 service UserMgr {
     rpc RegUser(RegUserReq) returns (RegUserRsp);
     rpc UpdateUserInfo(UpdateUserInfoReq) returns (UpdateUserInfoRsp);
     rpc GetUserInfo(GetUserInfoReq) returns (GetUserInfoRsp);
+    rpc CheckPassword(CheckPasswordReq) returns (CheckPasswordRsp);
 }
 
 /*

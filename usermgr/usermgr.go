@@ -14,6 +14,8 @@ import (
 )
 
 type (
+	CheckPasswordReq  = user_mgr_pb.CheckPasswordReq
+	CheckPasswordRsp  = user_mgr_pb.CheckPasswordRsp
 	GetUserInfoReq    = user_mgr_pb.GetUserInfoReq
 	GetUserInfoRsp    = user_mgr_pb.GetUserInfoRsp
 	RegUserReq        = user_mgr_pb.RegUserReq
@@ -25,6 +27,7 @@ type (
 		RegUser(ctx context.Context, in *RegUserReq, opts ...grpc.CallOption) (*RegUserRsp, error)
 		UpdateUserInfo(ctx context.Context, in *UpdateUserInfoReq, opts ...grpc.CallOption) (*UpdateUserInfoRsp, error)
 		GetUserInfo(ctx context.Context, in *GetUserInfoReq, opts ...grpc.CallOption) (*GetUserInfoRsp, error)
+		CheckPassword(ctx context.Context, in *CheckPasswordReq, opts ...grpc.CallOption) (*CheckPasswordRsp, error)
 	}
 
 	defaultUserMgr struct {
@@ -51,4 +54,9 @@ func (m *defaultUserMgr) UpdateUserInfo(ctx context.Context, in *UpdateUserInfoR
 func (m *defaultUserMgr) GetUserInfo(ctx context.Context, in *GetUserInfoReq, opts ...grpc.CallOption) (*GetUserInfoRsp, error) {
 	client := user_mgr_pb.NewUserMgrClient(m.cli.Conn())
 	return client.GetUserInfo(ctx, in, opts...)
+}
+
+func (m *defaultUserMgr) CheckPassword(ctx context.Context, in *CheckPasswordReq, opts ...grpc.CallOption) (*CheckPasswordRsp, error) {
+	client := user_mgr_pb.NewUserMgrClient(m.cli.Conn())
+	return client.CheckPassword(ctx, in, opts...)
 }

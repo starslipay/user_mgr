@@ -22,6 +22,7 @@ const (
 	UserMgr_RegUser_FullMethodName        = "/user_mgr.UserMgr/RegUser"
 	UserMgr_UpdateUserInfo_FullMethodName = "/user_mgr.UserMgr/UpdateUserInfo"
 	UserMgr_GetUserInfo_FullMethodName    = "/user_mgr.UserMgr/GetUserInfo"
+	UserMgr_CheckPassword_FullMethodName  = "/user_mgr.UserMgr/CheckPassword"
 )
 
 // UserMgrClient is the client API for UserMgr service.
@@ -31,6 +32,7 @@ type UserMgrClient interface {
 	RegUser(ctx context.Context, in *RegUserReq, opts ...grpc.CallOption) (*RegUserRsp, error)
 	UpdateUserInfo(ctx context.Context, in *UpdateUserInfoReq, opts ...grpc.CallOption) (*UpdateUserInfoRsp, error)
 	GetUserInfo(ctx context.Context, in *GetUserInfoReq, opts ...grpc.CallOption) (*GetUserInfoRsp, error)
+	CheckPassword(ctx context.Context, in *CheckPasswordReq, opts ...grpc.CallOption) (*CheckPasswordRsp, error)
 }
 
 type userMgrClient struct {
@@ -71,6 +73,16 @@ func (c *userMgrClient) GetUserInfo(ctx context.Context, in *GetUserInfoReq, opt
 	return out, nil
 }
 
+func (c *userMgrClient) CheckPassword(ctx context.Context, in *CheckPasswordReq, opts ...grpc.CallOption) (*CheckPasswordRsp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CheckPasswordRsp)
+	err := c.cc.Invoke(ctx, UserMgr_CheckPassword_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // UserMgrServer is the server API for UserMgr service.
 // All implementations must embed UnimplementedUserMgrServer
 // for forward compatibility.
@@ -78,6 +90,7 @@ type UserMgrServer interface {
 	RegUser(context.Context, *RegUserReq) (*RegUserRsp, error)
 	UpdateUserInfo(context.Context, *UpdateUserInfoReq) (*UpdateUserInfoRsp, error)
 	GetUserInfo(context.Context, *GetUserInfoReq) (*GetUserInfoRsp, error)
+	CheckPassword(context.Context, *CheckPasswordReq) (*CheckPasswordRsp, error)
 	mustEmbedUnimplementedUserMgrServer()
 }
 
@@ -96,6 +109,9 @@ func (UnimplementedUserMgrServer) UpdateUserInfo(context.Context, *UpdateUserInf
 }
 func (UnimplementedUserMgrServer) GetUserInfo(context.Context, *GetUserInfoReq) (*GetUserInfoRsp, error) {
 	return nil, status.Error(codes.Unimplemented, "method GetUserInfo not implemented")
+}
+func (UnimplementedUserMgrServer) CheckPassword(context.Context, *CheckPasswordReq) (*CheckPasswordRsp, error) {
+	return nil, status.Error(codes.Unimplemented, "method CheckPassword not implemented")
 }
 func (UnimplementedUserMgrServer) mustEmbedUnimplementedUserMgrServer() {}
 func (UnimplementedUserMgrServer) testEmbeddedByValue()                 {}
@@ -172,6 +188,24 @@ func _UserMgr_GetUserInfo_Handler(srv interface{}, ctx context.Context, dec func
 	return interceptor(ctx, in, info, handler)
 }
 
+func _UserMgr_CheckPassword_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CheckPasswordReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserMgrServer).CheckPassword(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserMgr_CheckPassword_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserMgrServer).CheckPassword(ctx, req.(*CheckPasswordReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // UserMgr_ServiceDesc is the grpc.ServiceDesc for UserMgr service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -190,6 +224,10 @@ var UserMgr_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetUserInfo",
 			Handler:    _UserMgr_GetUserInfo_Handler,
+		},
+		{
+			MethodName: "CheckPassword",
+			Handler:    _UserMgr_CheckPassword_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

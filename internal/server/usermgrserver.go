@@ -37,3 +37,8 @@ func (s *UserMgrServer) GetUserInfo(ctx context.Context, in *user_mgr_pb.GetUser
 	l := logic.NewGetUserInfoLogic(ctx, s.svcCtx)
 	return l.GetUserInfo(in)
 }
+
+func (s *UserMgrServer) CheckPassword(ctx context.Context, in *user_mgr_pb.CheckPasswordReq) (*user_mgr_pb.CheckPasswordRsp, error) {
+	l := logic.NewCheckPasswordLogic(ctx, s.svcCtx)
+	return l.CheckPassword(in)
+}

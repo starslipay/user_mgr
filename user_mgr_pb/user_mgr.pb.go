@@ -488,6 +488,102 @@ func (x *UpdateUserInfoRsp) GetUserId() string {
 	return ""
 }
 
+type CheckPasswordReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	UserId        string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	Password      string                 `protobuf:"bytes,2,opt,name=password,proto3" json:"password,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CheckPasswordReq) Reset() {
+	*x = CheckPasswordReq{}
+	mi := &file_user_mgr_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CheckPasswordReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CheckPasswordReq) ProtoMessage() {}
+
+func (x *CheckPasswordReq) ProtoReflect() protoreflect.Message {
+	mi := &file_user_mgr_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CheckPasswordReq.ProtoReflect.Descriptor instead.
+func (*CheckPasswordReq) Descriptor() ([]byte, []int) {
+	return file_user_mgr_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *CheckPasswordReq) GetUserId() string {
+	if x != nil {
+		return x.UserId
+	}
+	return ""
+}
+
+func (x *CheckPasswordReq) GetPassword() string {
+	if x != nil {
+		return x.Password
+	}
+	return ""
+}
+
+type CheckPasswordRsp struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	CheckResult   int32                  `protobuf:"varint,1,opt,name=check_result,json=checkResult,proto3" json:"check_result,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CheckPasswordRsp) Reset() {
+	*x = CheckPasswordRsp{}
+	mi := &file_user_mgr_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CheckPasswordRsp) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CheckPasswordRsp) ProtoMessage() {}
+
+func (x *CheckPasswordRsp) ProtoReflect() protoreflect.Message {
+	mi := &file_user_mgr_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CheckPasswordRsp.ProtoReflect.Descriptor instead.
+func (*CheckPasswordRsp) Descriptor() ([]byte, []int) {
+	return file_user_mgr_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *CheckPasswordRsp) GetCheckResult() int32 {
+	if x != nil {
+		return x.CheckResult
+	}
+	return 0
+}
+
 var File_user_mgr_proto protoreflect.FileDescriptor
 
 const file_user_mgr_proto_rawDesc = "" +
@@ -532,11 +628,17 @@ const file_user_mgr_proto_rawDesc = "" +
 	"\aid_type\x18\b \x01(\x05R\x06idType\x12\x17\n" +
 	"\aid_card\x18\t \x01(\tR\x06idCard\",\n" +
 	"\x11UpdateUserInfoRsp\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\tR\x06userId2\xcf\x01\n" +
+	"\auser_id\x18\x01 \x01(\tR\x06userId\"G\n" +
+	"\x10CheckPasswordReq\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x1a\n" +
+	"\bpassword\x18\x02 \x01(\tR\bpassword\"5\n" +
+	"\x10CheckPasswordRsp\x12!\n" +
+	"\fcheck_result\x18\x01 \x01(\x05R\vcheckResult2\x98\x02\n" +
 	"\aUserMgr\x125\n" +
 	"\aRegUser\x12\x14.user_mgr.RegUserReq\x1a\x14.user_mgr.RegUserRsp\x12J\n" +
 	"\x0eUpdateUserInfo\x12\x1b.user_mgr.UpdateUserInfoReq\x1a\x1b.user_mgr.UpdateUserInfoRsp\x12A\n" +
-	"\vGetUserInfo\x12\x18.user_mgr.GetUserInfoReq\x1a\x18.user_mgr.GetUserInfoRspB\x0fZ\r./user_mgr_pbb\x06proto3"
+	"\vGetUserInfo\x12\x18.user_mgr.GetUserInfoReq\x1a\x18.user_mgr.GetUserInfoRsp\x12G\n" +
+	"\rCheckPassword\x12\x1a.user_mgr.CheckPasswordReq\x1a\x1a.user_mgr.CheckPasswordRspB\x0fZ\r./user_mgr_pbb\x06proto3"
 
 var (
 	file_user_mgr_proto_rawDescOnce sync.Once
@@ -550,7 +652,7 @@ func file_user_mgr_proto_rawDescGZIP() []byte {
 	return file_user_mgr_proto_rawDescData
 }
 
-var file_user_mgr_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
+var file_user_mgr_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
 var file_user_mgr_proto_goTypes = []any{
 	(*RegUserReq)(nil),        // 0: user_mgr.RegUserReq
 	(*RegUserRsp)(nil),        // 1: user_mgr.RegUserRsp
@@ -558,16 +660,20 @@ var file_user_mgr_proto_goTypes = []any{
 	(*GetUserInfoRsp)(nil),    // 3: user_mgr.GetUserInfoRsp
 	(*UpdateUserInfoReq)(nil), // 4: user_mgr.UpdateUserInfoReq
 	(*UpdateUserInfoRsp)(nil), // 5: user_mgr.UpdateUserInfoRsp
+	(*CheckPasswordReq)(nil),  // 6: user_mgr.CheckPasswordReq
+	(*CheckPasswordRsp)(nil),  // 7: user_mgr.CheckPasswordRsp
 }
 var file_user_mgr_proto_depIdxs = []int32{
 	0, // 0: user_mgr.UserMgr.RegUser:input_type -> user_mgr.RegUserReq
 	4, // 1: user_mgr.UserMgr.UpdateUserInfo:input_type -> user_mgr.UpdateUserInfoReq
 	2, // 2: user_mgr.UserMgr.GetUserInfo:input_type -> user_mgr.GetUserInfoReq
-	1, // 3: user_mgr.UserMgr.RegUser:output_type -> user_mgr.RegUserRsp
-	5, // 4: user_mgr.UserMgr.UpdateUserInfo:output_type -> user_mgr.UpdateUserInfoRsp
-	3, // 5: user_mgr.UserMgr.GetUserInfo:output_type -> user_mgr.GetUserInfoRsp
-	3, // [3:6] is the sub-list for method output_type
-	0, // [0:3] is the sub-list for method input_type
+	6, // 3: user_mgr.UserMgr.CheckPassword:input_type -> user_mgr.CheckPasswordReq
+	1, // 4: user_mgr.UserMgr.RegUser:output_type -> user_mgr.RegUserRsp
+	5, // 5: user_mgr.UserMgr.UpdateUserInfo:output_type -> user_mgr.UpdateUserInfoRsp
+	3, // 6: user_mgr.UserMgr.GetUserInfo:output_type -> user_mgr.GetUserInfoRsp
+	7, // 7: user_mgr.UserMgr.CheckPassword:output_type -> user_mgr.CheckPasswordRsp
+	4, // [4:8] is the sub-list for method output_type
+	0, // [0:4] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
 	0, // [0:0] is the sub-list for extension extendee
 	0, // [0:0] is the sub-list for field type_name
@@ -584,7 +690,7 @@ func file_user_mgr_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_user_mgr_proto_rawDesc), len(file_user_mgr_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   6,
+			NumMessages:   8,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
