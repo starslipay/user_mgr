@@ -57,6 +57,8 @@ func (l *RegUserLogic) RegUser(in *user_mgr_pb.RegUserReq) (*user_mgr_pb.RegUser
 	if err := CheckPassword(in.Password); err != nil {
 		return nil, err
 	}
+	// TODO password这种参数需要加密传输
+	PasswordMD5 := GenMD5(in.Password)
 
 	isExistRelation := true
 	// 先查询relation是否已经存在
@@ -112,7 +114,7 @@ func (l *RegUserLogic) RegUser(in *user_mgr_pb.RegUserReq) (*user_mgr_pb.RegUser
 		_, err = l.svcCtx.TUserInfoModelMaster.Insert(l.ctx, &mysql.TUserInfo{
 			Uid:      uid,
 			UserId:   in.UserId,
-			Password: in.Password,
+			Password: PasswordMD5,
 			Name:     in.Name,
 			Gender:   int64(in.Gender),
 			Age:      int64(in.Age),
@@ -128,7 +130,7 @@ func (l *RegUserLogic) RegUser(in *user_mgr_pb.RegUserReq) (*user_mgr_pb.RegUser
 		}
 	} else {
 		userInfo.UserId = in.UserId
-		userInfo.Password = in.Password
+		userInfo.Password = PasswordMD5
 		userInfo.Name = in.Name
 		userInfo.Gender = int64(in.Gender)
 		userInfo.Age = int64(in.Age)
