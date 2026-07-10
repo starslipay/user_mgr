@@ -36,6 +36,27 @@ func (l *RegUserLogic) RegUser(in *user_mgr_pb.RegUserReq) (*user_mgr_pb.RegUser
 	if err := CheckAge(in.Age); err != nil {
 		return nil, err
 	}
+	if err := CheckGender(in.Gender); err != nil {
+		return nil, err
+	}
+	if err := CheckAddress(in.Address); err != nil {
+		return nil, err
+	}
+	if err := CheckPhone(in.Phone); err != nil {
+		return nil, err
+	}
+	if err := CheckEmail(in.Email); err != nil {
+		return nil, err
+	}
+	if err := CheckIdType(in.IdType); err != nil {
+		return nil, err
+	}
+	if err := CheckIdCard(in.IdCard); err != nil {
+		return nil, err
+	}
+	if err := CheckPassword(in.Password); err != nil {
+		return nil, err
+	}
 
 	isExistRelation := true
 	// 先查询relation是否已经存在
