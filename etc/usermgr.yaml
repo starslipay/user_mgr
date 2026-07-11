@@ -3,7 +3,7 @@ ListenOn: 0.0.0.0:8080
 Timeout: 10000
 Etcd:
   Hosts:
-    - 127.0.0.1:2379 # 本地开发环境
+    - etcd:2379 # 本地开发环境
     # - etcd-0.etcd.pay-ns.svc.cluster.local:2379
     # - etcd-1.etcd.pay-ns.svc.cluster.local:2379
     # - etcd-2.etcd.pay-ns.svc.cluster.local:2379
@@ -11,16 +11,16 @@ Etcd:
 
 MasterDBConfig:
   # DataSource: root:root123456@tcp(mysql-primary.pay-ns.svc.cluster.local:3306)/user_db?charset=utf8mb4&parseTime=True&loc=Local&timeout=5s&readTimeout=10s&writeTimeout=10s  # k8s
-  DataSource: root:root123456@tcp(127.0.0.1:3306)/user_db?charset=utf8mb4&parseTime=True&loc=Local&timeout=5s&readTimeout=10s&writeTimeout=10s  # 开发环境
+  DataSource: root:root123456@tcp(mysql8:3306)/user_db?charset=utf8mb4&parseTime=True&loc=Local&timeout=5s&readTimeout=10s&writeTimeout=10s  # 开发环境
 
 SlaveDBConfig:
   # DataSource: starslipay:starslipay123456@tcp(mysql-slave.pay-ns.svc.cluster.local:3306)/user_db?charset=utf8mb4&parseTime=True&loc=Local&timeout=5s&readTimeout=10s&writeTimeout=10s
-  DataSource: root:root123456@tcp(127.0.0.1:3306)/user_db?charset=utf8mb4&parseTime=True&loc=Local&timeout=5s&readTimeout=10s&writeTimeout=10s  # 开发环境
+  DataSource: root:root123456@tcp(mysql8:3306)/user_db?charset=utf8mb4&parseTime=True&loc=Local&timeout=5s&readTimeout=10s&writeTimeout=10s  # 开发环境
 
 AccountMgrRpcConfig:
   Etcd:
     Hosts:
-      - 127.0.0.1:2379 # 本地开发环境
+      - etcd:2379 # 本地开发环境
     # - etcd-0.etcd.pay-ns.svc.cluster.local:2379
     # - etcd-1.etcd.pay-ns.svc.cluster.local:2379
     # - etcd-2.etcd.pay-ns.svc.cluster.local:2379
