@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/starslipay/user_mgr/internal/svc"
+	"github.com/starslipay/user_mgr/internal/xerr"
 	"github.com/starslipay/user_mgr/user_mgr_pb"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -35,7 +36,7 @@ func (l *GetUserInfoLogic) GetUserInfo(in *user_mgr_pb.GetUserInfoReq) (*user_mg
 
 	userInfo, err := l.svcCtx.TUserInfoModelSlave.FindOne(l.ctx, relation.Uid)
 	if err != nil {
-		return nil, err
+		return nil, xerr.NewDBError("find user info failed: " + err.Error())
 	}
 
 	return &user_mgr_pb.GetUserInfoRsp{

@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/starslipay/user_mgr/internal/svc"
+	"github.com/starslipay/user_mgr/internal/xerr"
 	"github.com/starslipay/user_mgr/model/mysql"
 	"github.com/starslipay/user_mgr/user_mgr_pb"
 
@@ -38,7 +39,7 @@ func (l *UpdateUserInfoLogic) UpdateUserInfo(in *user_mgr_pb.UpdateUserInfoReq) 
 	err = l.svcCtx.TUserInfoModelMaster.TransactCtx(l.ctx, func(ctx context.Context, tx mysql.TUserInfoModel) error {
 		userInfo, err := tx.FindOne(ctx, relation.Uid)
 		if err != nil {
-			return err
+			return xerr.NewDBError("find user info failed: " + err.Error())
 		}
 
 		// 传入的字段，才更新
@@ -67,7 +68,11 @@ func (l *UpdateUserInfoLogic) UpdateUserInfo(in *user_mgr_pb.UpdateUserInfoReq) 
 			userInfo.IdCard = in.IdCard
 		}
 
-		return tx.Update(ctx, userInfo)
+		err = tx.Update(ctx, userInfo)
+		if err != nil {
+			return xerr.NewDBError("update user info failed: " + err.Error())
+		}
+		return nil
 	})
 	if err != nil {
 		return nil, err

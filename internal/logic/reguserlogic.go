@@ -2,10 +2,10 @@ package logic
 
 import (
 	"context"
-	"errors"
 
 	"github.com/starslipay/account_mgr/account_mgr_pb"
 	"github.com/starslipay/user_mgr/internal/svc"
+	"github.com/starslipay/user_mgr/internal/xerr"
 	"github.com/starslipay/user_mgr/model/mysql"
 	"github.com/starslipay/user_mgr/user_mgr_pb"
 
@@ -68,15 +68,15 @@ func (l *RegUserLogic) RegUser(in *user_mgr_pb.RegUserReq) (*user_mgr_pb.RegUser
 		if err == sqlx.ErrNotFound {
 			isExistRelation = false
 		} else {
-			return nil, err
+			return nil, xerr.NewDBError("find relation failed: " + err.Error())
 		}
 	} else {
 		if RelationStateRegistering == relation.State {
 			// 继续关联中，不执行后续操作
 		} else if RelationStateRegistered == relation.State {
-			return nil, errors.New("user already registered")
+			return nil, xerr.ErrUserAlreadyRegistered
 		} else {
-			return nil, errors.New("relation state is not registering or registered")
+			return nil, xerr.ErrRelationStateNotRegisteringOrRegistered
 		}
 	}
 
@@ -86,7 +86,6 @@ func (l *RegUserLogic) RegUser(in *user_mgr_pb.RegUserReq) (*user_mgr_pb.RegUser
 	} else {
 		uid, err = l.generateUid()
 		if err != nil {
-			l.Logger.Errorf("generateUid failed: %v", err)
 			return nil, err
 		}
 
@@ -96,8 +95,7 @@ func (l *RegUserLogic) RegUser(in *user_mgr_pb.RegUserReq) (*user_mgr_pb.RegUser
 			State:  RelationStateRegistering, // 注册中
 		})
 		if err != nil {
-			l.Logger.Errorf("insert relation failed: %v", err)
-			return nil, err
+			return nil, xerr.NewDBError("insert relation failed: " + err.Error())
 		}
 	}
 
@@ -107,7 +105,7 @@ func (l *RegUserLogic) RegUser(in *user_mgr_pb.RegUserReq) (*user_mgr_pb.RegUser
 		if err == sqlx.ErrNotFound {
 			isExistUserInfo = false
 		} else {
-			return nil, err
+			return nil, xerr.NewDBError("find user info failed: " + err.Error())
 		}
 	}
 	if !isExistUserInfo {
@@ -126,8 +124,7 @@ func (l *RegUserLogic) RegUser(in *user_mgr_pb.RegUserReq) (*user_mgr_pb.RegUser
 			IdCard:   in.IdCard,
 		})
 		if err != nil {
-			l.Logger.Errorf("insert user info failed: %v", err)
-			return nil, err
+			return nil, xerr.NewDBError("insert user info failed: " + err.Error())
 		}
 	} else {
 		userInfo.UserId = in.UserId
@@ -143,8 +140,7 @@ func (l *RegUserLogic) RegUser(in *user_mgr_pb.RegUserReq) (*user_mgr_pb.RegUser
 		// 更新用户信息
 		err = l.svcCtx.TUserInfoModelMaster.Update(l.ctx, userInfo)
 		if err != nil {
-			l.Logger.Errorf("update user info failed: %v", err)
-			return nil, err
+			return nil, xerr.NewDBError("update user info failed: " + err.Error())
 		}
 	}
 
@@ -155,11 +151,10 @@ func (l *RegUserLogic) RegUser(in *user_mgr_pb.RegUserReq) (*user_mgr_pb.RegUser
 		CurType: 1, // 1-人民币
 	})
 	if err != nil {
-		l.Logger.Errorf("create account failed: %v", err)
-		return nil, err
+		return nil, xerr.NewDBError("create account failed: " + err.Error())
 	}
 	if createAccountRsp.IsRepeat {
-		l.Logger.Info("create account repeat")
+		l.Logger.Info("create account already exist, create repeat")
 	}
 
 	err = l.svcCtx.TRelationModelMaster.Update(l.ctx, &mysql.TRelation{
@@ -168,8 +163,7 @@ func (l *RegUserLogic) RegUser(in *user_mgr_pb.RegUserReq) (*user_mgr_pb.RegUser
 		State:  RelationStateRegistered, // 注册成功
 	})
 	if err != nil {
-		l.Logger.Errorf("update relation state failed: %v", err)
-		return nil, err
+		return nil, xerr.NewDBError("update relation state failed: " + err.Error())
 	}
 
 	return &user_mgr_pb.RegUserRsp{
@@ -184,7 +178,7 @@ func (l *RegUserLogic) generateUid() (int64, error) {
 		// 查询当前 segment (使用 FOR UPDATE 锁定行)
 		segment, err := tx.FindOneForUpdate(ctx, 1)
 		if err != nil {
-			return err
+			return xerr.NewDBError("find uid segment failed: " + err.Error())
 		}
 
 		// 计算新的 UID
