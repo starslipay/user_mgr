@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/starslipay/account_mgr/account_mgr_pb"
+	"github.com/starslipay/trade_id_mgr/trade_id_mgr_pb"
 	"github.com/starslipay/user_mgr/internal/svc"
 	"github.com/starslipay/user_mgr/internal/xerr"
 	"github.com/starslipay/user_mgr/model/mysql"
@@ -173,25 +174,9 @@ func (l *RegUserLogic) RegUser(in *user_mgr_pb.RegUserReq) (*user_mgr_pb.RegUser
 
 // generateUid 从 t_uid_segment 获取一个UID，需要在事务中完成
 func (l *RegUserLogic) generateUid() (int64, error) {
-	var newUid int64
-	err := l.svcCtx.TUidSegmentModelMaster.TransactCtx(l.ctx, func(ctx context.Context, tx mysql.TUidSegmentModel) error {
-		// 查询当前 segment (使用 FOR UPDATE 锁定行)
-		segment, err := tx.FindOneForUpdate(ctx, 1)
-		if err != nil {
-			return xerr.NewDBError("find uid segment failed: " + err.Error())
-		}
-
-		// 计算新的 UID
-		newUid = segment.UidMax + 1
-
-		// 更新 uid_max
-		segment.UidMax = newUid
-		return tx.Update(ctx, segment)
-	})
-
+	genUidRsp, err := l.svcCtx.TradeIdMgrRpcClient.GenUid(l.ctx, &trade_id_mgr_pb.GenUidReq{})
 	if err != nil {
 		return 0, err
 	}
-
-	return newUid, nil
+	return genUidRsp.Uid, nil
 }

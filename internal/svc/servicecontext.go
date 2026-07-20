@@ -2,6 +2,7 @@ package svc
 
 import (
 	"github.com/starslipay/account_mgr/account_mgr_pb"
+	"github.com/starslipay/trade_id_mgr/trade_id_mgr_pb"
 	"github.com/starslipay/user_mgr/internal/config"
 	"github.com/starslipay/user_mgr/model/mysql"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
@@ -19,6 +20,7 @@ type ServiceContext struct {
 	TUserInfoModelSlave mysql.TUserInfoModel
 
 	AccountMgrRpcClient account_mgr_pb.AccountMgrClient
+	TradeIdMgrRpcClient trade_id_mgr_pb.TradeIdMgrClient
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
@@ -34,5 +36,6 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		TUserInfoModelSlave: mysql.NewTUserInfoModel(SqlSlaveConn),
 
 		AccountMgrRpcClient: account_mgr_pb.NewAccountMgrClient(zrpc.MustNewClient(c.AccountMgrRpcConfig).Conn()),
+		TradeIdMgrRpcClient: trade_id_mgr_pb.NewTradeIdMgrClient(zrpc.MustNewClient(c.TradeIdMgrRpcConfig).Conn()),
 	}
 }

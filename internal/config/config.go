@@ -11,4 +11,5 @@ type Config struct {
 		DataSource string
 	}
 	AccountMgrRpcConfig zrpc.RpcClientConf
+	TradeIdMgrRpcConfig zrpc.RpcClientConf
 }
