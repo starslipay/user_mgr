@@ -46,7 +46,6 @@ func (l *CheckPasswordLogic) CheckPassword(in *user_mgr_pb.CheckPasswordReq) (*u
 
 	inPasswordMD5 := GenMD5(in.Password)
 	if userInfo.Password != inPasswordMD5 {
-		l.Logger.Errorf("password not match, [%s]!=[%s]", userInfo.Password, inPasswordMD5)
 		return nil, xerr.ErrPasswordWrong
 	}
 
