@@ -85,7 +85,7 @@ func (l *RegUserLogic) RegUser(in *user_mgr_pb.RegUserReq) (*user_mgr_pb.RegUser
 	if isExistRelation {
 		uid = relation.Uid
 	} else {
-		uid, err = l.generateUid()
+		uid, err = l.genUid()
 		if err != nil {
 			return nil, err
 		}
@@ -172,8 +172,7 @@ func (l *RegUserLogic) RegUser(in *user_mgr_pb.RegUserReq) (*user_mgr_pb.RegUser
 	}, nil
 }
 
-// generateUid 从 t_uid_segment 获取一个UID，需要在事务中完成
-func (l *RegUserLogic) generateUid() (int64, error) {
+func (l *RegUserLogic) genUid() (int64, error) {
 	genUidRsp, err := l.svcCtx.TradeIdMgrRpcClient.GenUid(l.ctx, &trade_id_mgr_pb.GenUidReq{})
 	if err != nil {
 		return 0, err
