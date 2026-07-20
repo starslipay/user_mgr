@@ -47,3 +47,8 @@ func (s *UserMgrServer) CheckPassword(ctx context.Context, in *user_mgr_pb.Check
 	l := logic.NewCheckPasswordLogic(ctx, s.svcCtx)
 	return l.CheckPassword(in)
 }
+
+func (s *UserMgrServer) GetUserToken(ctx context.Context, in *user_mgr_pb.GetUserTokenReq) (*user_mgr_pb.GetUserTokenRsp, error) {
+	l := logic.NewGetUserTokenLogic(ctx, s.svcCtx)
+	return l.GetUserToken(in)
+}

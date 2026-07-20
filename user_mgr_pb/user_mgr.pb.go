@@ -646,7 +646,6 @@ func (x *CheckPasswordReq) GetPassword() string {
 
 type CheckPasswordRsp struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	CheckResult   int32                  `protobuf:"varint,1,opt,name=check_result,json=checkResult,proto3" json:"check_result,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -681,11 +680,108 @@ func (*CheckPasswordRsp) Descriptor() ([]byte, []int) {
 	return file_user_mgr_proto_rawDescGZIP(), []int{9}
 }
 
-func (x *CheckPasswordRsp) GetCheckResult() int32 {
+type GetUserTokenReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	UserId        string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	Password      string                 `protobuf:"bytes,2,opt,name=password,proto3" json:"password,omitempty"`
+	BusinessInfo  string                 `protobuf:"bytes,3,opt,name=business_info,json=businessInfo,proto3" json:"business_info,omitempty"` // 业务信息, 会参生成token
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetUserTokenReq) Reset() {
+	*x = GetUserTokenReq{}
+	mi := &file_user_mgr_proto_msgTypes[10]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetUserTokenReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetUserTokenReq) ProtoMessage() {}
+
+func (x *GetUserTokenReq) ProtoReflect() protoreflect.Message {
+	mi := &file_user_mgr_proto_msgTypes[10]
 	if x != nil {
-		return x.CheckResult
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
 	}
-	return 0
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetUserTokenReq.ProtoReflect.Descriptor instead.
+func (*GetUserTokenReq) Descriptor() ([]byte, []int) {
+	return file_user_mgr_proto_rawDescGZIP(), []int{10}
+}
+
+func (x *GetUserTokenReq) GetUserId() string {
+	if x != nil {
+		return x.UserId
+	}
+	return ""
+}
+
+func (x *GetUserTokenReq) GetPassword() string {
+	if x != nil {
+		return x.Password
+	}
+	return ""
+}
+
+func (x *GetUserTokenReq) GetBusinessInfo() string {
+	if x != nil {
+		return x.BusinessInfo
+	}
+	return ""
+}
+
+type GetUserTokenRsp struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	UserToken     string                 `protobuf:"bytes,1,opt,name=user_token,json=userToken,proto3" json:"user_token,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetUserTokenRsp) Reset() {
+	*x = GetUserTokenRsp{}
+	mi := &file_user_mgr_proto_msgTypes[11]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetUserTokenRsp) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetUserTokenRsp) ProtoMessage() {}
+
+func (x *GetUserTokenRsp) ProtoReflect() protoreflect.Message {
+	mi := &file_user_mgr_proto_msgTypes[11]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetUserTokenRsp.ProtoReflect.Descriptor instead.
+func (*GetUserTokenRsp) Descriptor() ([]byte, []int) {
+	return file_user_mgr_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *GetUserTokenRsp) GetUserToken() string {
+	if x != nil {
+		return x.UserToken
+	}
+	return ""
 }
 
 var File_user_mgr_proto protoreflect.FileDescriptor
@@ -742,15 +838,22 @@ const file_user_mgr_proto_rawDesc = "" +
 	"\auser_id\x18\x01 \x01(\tR\x06userId\"G\n" +
 	"\x10CheckPasswordReq\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x1a\n" +
-	"\bpassword\x18\x02 \x01(\tR\bpassword\"5\n" +
-	"\x10CheckPasswordRsp\x12!\n" +
-	"\fcheck_result\x18\x01 \x01(\x05R\vcheckResult2\xdb\x02\n" +
+	"\bpassword\x18\x02 \x01(\tR\bpassword\"\x12\n" +
+	"\x10CheckPasswordRsp\"k\n" +
+	"\x0fGetUserTokenReq\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x1a\n" +
+	"\bpassword\x18\x02 \x01(\tR\bpassword\x12#\n" +
+	"\rbusiness_info\x18\x03 \x01(\tR\fbusinessInfo\"0\n" +
+	"\x0fGetUserTokenRsp\x12\x1d\n" +
+	"\n" +
+	"user_token\x18\x01 \x01(\tR\tuserToken2\xa1\x03\n" +
 	"\aUserMgr\x125\n" +
 	"\aRegUser\x12\x14.user_mgr.RegUserReq\x1a\x14.user_mgr.RegUserRsp\x12J\n" +
 	"\x0eUpdateUserInfo\x12\x1b.user_mgr.UpdateUserInfoReq\x1a\x1b.user_mgr.UpdateUserInfoRsp\x12A\n" +
 	"\vGetRelation\x12\x18.user_mgr.GetRelationReq\x1a\x18.user_mgr.GetRelationRsp\x12A\n" +
 	"\vGetUserInfo\x12\x18.user_mgr.GetUserInfoReq\x1a\x18.user_mgr.GetUserInfoRsp\x12G\n" +
-	"\rCheckPassword\x12\x1a.user_mgr.CheckPasswordReq\x1a\x1a.user_mgr.CheckPasswordRspB\x0fZ\r./user_mgr_pbb\x06proto3"
+	"\rCheckPassword\x12\x1a.user_mgr.CheckPasswordReq\x1a\x1a.user_mgr.CheckPasswordRsp\x12D\n" +
+	"\fGetUserToken\x12\x19.user_mgr.GetUserTokenReq\x1a\x19.user_mgr.GetUserTokenRspB\x0fZ\r./user_mgr_pbb\x06proto3"
 
 var (
 	file_user_mgr_proto_rawDescOnce sync.Once
@@ -764,7 +867,7 @@ func file_user_mgr_proto_rawDescGZIP() []byte {
 	return file_user_mgr_proto_rawDescData
 }
 
-var file_user_mgr_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
+var file_user_mgr_proto_msgTypes = make([]protoimpl.MessageInfo, 12)
 var file_user_mgr_proto_goTypes = []any{
 	(*RegUserReq)(nil),        // 0: user_mgr.RegUserReq
 	(*GetRelationReq)(nil),    // 1: user_mgr.GetRelationReq
@@ -776,23 +879,27 @@ var file_user_mgr_proto_goTypes = []any{
 	(*UpdateUserInfoRsp)(nil), // 7: user_mgr.UpdateUserInfoRsp
 	(*CheckPasswordReq)(nil),  // 8: user_mgr.CheckPasswordReq
 	(*CheckPasswordRsp)(nil),  // 9: user_mgr.CheckPasswordRsp
+	(*GetUserTokenReq)(nil),   // 10: user_mgr.GetUserTokenReq
+	(*GetUserTokenRsp)(nil),   // 11: user_mgr.GetUserTokenRsp
 }
 var file_user_mgr_proto_depIdxs = []int32{
-	0, // 0: user_mgr.UserMgr.RegUser:input_type -> user_mgr.RegUserReq
-	6, // 1: user_mgr.UserMgr.UpdateUserInfo:input_type -> user_mgr.UpdateUserInfoReq
-	1, // 2: user_mgr.UserMgr.GetRelation:input_type -> user_mgr.GetRelationReq
-	4, // 3: user_mgr.UserMgr.GetUserInfo:input_type -> user_mgr.GetUserInfoReq
-	8, // 4: user_mgr.UserMgr.CheckPassword:input_type -> user_mgr.CheckPasswordReq
-	3, // 5: user_mgr.UserMgr.RegUser:output_type -> user_mgr.RegUserRsp
-	7, // 6: user_mgr.UserMgr.UpdateUserInfo:output_type -> user_mgr.UpdateUserInfoRsp
-	2, // 7: user_mgr.UserMgr.GetRelation:output_type -> user_mgr.GetRelationRsp
-	5, // 8: user_mgr.UserMgr.GetUserInfo:output_type -> user_mgr.GetUserInfoRsp
-	9, // 9: user_mgr.UserMgr.CheckPassword:output_type -> user_mgr.CheckPasswordRsp
-	5, // [5:10] is the sub-list for method output_type
-	0, // [0:5] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	0,  // 0: user_mgr.UserMgr.RegUser:input_type -> user_mgr.RegUserReq
+	6,  // 1: user_mgr.UserMgr.UpdateUserInfo:input_type -> user_mgr.UpdateUserInfoReq
+	1,  // 2: user_mgr.UserMgr.GetRelation:input_type -> user_mgr.GetRelationReq
+	4,  // 3: user_mgr.UserMgr.GetUserInfo:input_type -> user_mgr.GetUserInfoReq
+	8,  // 4: user_mgr.UserMgr.CheckPassword:input_type -> user_mgr.CheckPasswordReq
+	10, // 5: user_mgr.UserMgr.GetUserToken:input_type -> user_mgr.GetUserTokenReq
+	3,  // 6: user_mgr.UserMgr.RegUser:output_type -> user_mgr.RegUserRsp
+	7,  // 7: user_mgr.UserMgr.UpdateUserInfo:output_type -> user_mgr.UpdateUserInfoRsp
+	2,  // 8: user_mgr.UserMgr.GetRelation:output_type -> user_mgr.GetRelationRsp
+	5,  // 9: user_mgr.UserMgr.GetUserInfo:output_type -> user_mgr.GetUserInfoRsp
+	9,  // 10: user_mgr.UserMgr.CheckPassword:output_type -> user_mgr.CheckPasswordRsp
+	11, // 11: user_mgr.UserMgr.GetUserToken:output_type -> user_mgr.GetUserTokenRsp
+	6,  // [6:12] is the sub-list for method output_type
+	0,  // [0:6] is the sub-list for method input_type
+	0,  // [0:0] is the sub-list for extension type_name
+	0,  // [0:0] is the sub-list for extension extendee
+	0,  // [0:0] is the sub-list for field type_name
 }
 
 func init() { file_user_mgr_proto_init() }
@@ -806,7 +913,7 @@ func file_user_mgr_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_user_mgr_proto_rawDesc), len(file_user_mgr_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   10,
+			NumMessages:   12,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

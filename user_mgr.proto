@@ -72,7 +72,16 @@ message CheckPasswordReq {
 }
 
 message CheckPasswordRsp {
-    int32 check_result = 1;
+}
+
+message GetUserTokenReq {
+    string user_id = 1;
+    string password = 2;
+    string business_info = 3;  // 业务信息, 会参生成token
+}
+
+message GetUserTokenRsp {
+    string user_token = 1;
 }
 
 service UserMgr {
@@ -81,9 +90,5 @@ service UserMgr {
     rpc GetRelation(GetRelationReq) returns (GetRelationRsp);
     rpc GetUserInfo(GetUserInfoReq) returns (GetUserInfoRsp);
     rpc CheckPassword(CheckPasswordReq) returns (CheckPasswordRsp);
+    rpc GetUserToken(GetUserTokenReq) returns (GetUserTokenRsp);
 }
-
-/*
-生成项目框架
-goctl rpc protoc user_mgr.proto --go_out=. --go-grpc_out=. --zrpc_out=.
-*/

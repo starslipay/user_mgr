@@ -3,9 +3,17 @@ package logic
 import (
 	"crypto/md5"
 	"fmt"
+	"strconv"
+	"time"
 )
 
 func GenMD5(input string) string {
-	// 计算input的md5值
 	return fmt.Sprintf("%x", md5.Sum([]byte(input)))
+}
+
+func GenUserToken(user_id, businessInfo string) string {
+	timestamp := time.Now().Unix()
+	timestampStr := strconv.FormatInt(timestamp, 10)
+	md5Str := GenMD5(businessInfo + user_id + timestampStr)
+	return md5Str + timestampStr
 }
