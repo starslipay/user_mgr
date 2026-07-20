@@ -8,7 +8,7 @@ import (
 )
 
 func GenMD5(input string) string {
-	return fmt.Sprintf("%x", md5.Sum([]byte(input)))
+	return fmt.Sprintf("%X", md5.Sum([]byte(input)))
 }
 
 func GenUserToken(user_id, businessInfo string) string {
