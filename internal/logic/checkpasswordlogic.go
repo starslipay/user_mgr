@@ -49,5 +49,8 @@ func (l *CheckPasswordLogic) CheckPassword(in *user_mgr_pb.CheckPasswordReq) (*u
 		return nil, xerr.ErrPasswordWrong
 	}
 
-	return &user_mgr_pb.CheckPasswordRsp{}, nil
+	return &user_mgr_pb.CheckPasswordRsp{
+		UserId: userInfo.UserId,
+		Uid:    userInfo.Uid,
+	}, nil
 }

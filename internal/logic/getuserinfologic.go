@@ -49,5 +49,6 @@ func (l *GetUserInfoLogic) GetUserInfo(in *user_mgr_pb.GetUserInfoReq) (*user_mg
 		Email:   userInfo.Email,
 		IdType:  int32(userInfo.IdType),
 		IdCard:  userInfo.IdCard,
+		Uid:     userInfo.Uid,
 	}, nil
 }

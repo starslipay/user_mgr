@@ -60,6 +60,7 @@ message UpdateUserInfoReq {
     string email = 7;
     int32 id_type = 8;
     string id_card = 9;
+    int64 uid = 10;
 }
 
 message UpdateUserInfoRsp {
@@ -72,6 +73,8 @@ message CheckPasswordReq {
 }
 
 message CheckPasswordRsp {
+    string user_id = 1;
+    int64 uid = 2;
 }
 
 message GetUserTokenReq {
@@ -82,6 +85,8 @@ message GetUserTokenReq {
 
 message GetUserTokenRsp {
     string user_token = 1;
+    string user_id = 2;
+    int64 uid = 3;
 }
 
 service UserMgr {

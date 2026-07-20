@@ -48,5 +48,7 @@ func (l *GetUserTokenLogic) GetUserToken(in *user_mgr_pb.GetUserTokenReq) (*user
 
 	return &user_mgr_pb.GetUserTokenRsp{
 		UserToken: userToken,
+		UserId:    userInfo.UserId,
+		Uid:       userInfo.Uid,
 	}, nil
 }

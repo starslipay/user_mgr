@@ -451,6 +451,7 @@ type UpdateUserInfoReq struct {
 	Email         string                 `protobuf:"bytes,7,opt,name=email,proto3" json:"email,omitempty"`
 	IdType        int32                  `protobuf:"varint,8,opt,name=id_type,json=idType,proto3" json:"id_type,omitempty"`
 	IdCard        string                 `protobuf:"bytes,9,opt,name=id_card,json=idCard,proto3" json:"id_card,omitempty"`
+	Uid           int64                  `protobuf:"varint,10,opt,name=uid,proto3" json:"uid,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -546,6 +547,13 @@ func (x *UpdateUserInfoReq) GetIdCard() string {
 		return x.IdCard
 	}
 	return ""
+}
+
+func (x *UpdateUserInfoReq) GetUid() int64 {
+	if x != nil {
+		return x.Uid
+	}
+	return 0
 }
 
 type UpdateUserInfoRsp struct {
@@ -646,6 +654,8 @@ func (x *CheckPasswordReq) GetPassword() string {
 
 type CheckPasswordRsp struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	UserId        string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	Uid           int64                  `protobuf:"varint,2,opt,name=uid,proto3" json:"uid,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -678,6 +688,20 @@ func (x *CheckPasswordRsp) ProtoReflect() protoreflect.Message {
 // Deprecated: Use CheckPasswordRsp.ProtoReflect.Descriptor instead.
 func (*CheckPasswordRsp) Descriptor() ([]byte, []int) {
 	return file_user_mgr_proto_rawDescGZIP(), []int{9}
+}
+
+func (x *CheckPasswordRsp) GetUserId() string {
+	if x != nil {
+		return x.UserId
+	}
+	return ""
+}
+
+func (x *CheckPasswordRsp) GetUid() int64 {
+	if x != nil {
+		return x.Uid
+	}
+	return 0
 }
 
 type GetUserTokenReq struct {
@@ -743,6 +767,8 @@ func (x *GetUserTokenReq) GetBusinessInfo() string {
 type GetUserTokenRsp struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	UserToken     string                 `protobuf:"bytes,1,opt,name=user_token,json=userToken,proto3" json:"user_token,omitempty"`
+	UserId        string                 `protobuf:"bytes,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	Uid           int64                  `protobuf:"varint,3,opt,name=uid,proto3" json:"uid,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -784,6 +810,20 @@ func (x *GetUserTokenRsp) GetUserToken() string {
 	return ""
 }
 
+func (x *GetUserTokenRsp) GetUserId() string {
+	if x != nil {
+		return x.UserId
+	}
+	return ""
+}
+
+func (x *GetUserTokenRsp) GetUid() int64 {
+	if x != nil {
+		return x.Uid
+	}
+	return 0
+}
+
 var File_user_mgr_proto protoreflect.FileDescriptor
 
 const file_user_mgr_proto_rawDesc = "" +
@@ -823,7 +863,7 @@ const file_user_mgr_proto_rawDesc = "" +
 	"\aid_type\x18\b \x01(\x05R\x06idType\x12\x17\n" +
 	"\aid_card\x18\t \x01(\tR\x06idCard\x12\x10\n" +
 	"\x03uid\x18\n" +
-	" \x01(\x03R\x03uid\"\xe2\x01\n" +
+	" \x01(\x03R\x03uid\"\xf4\x01\n" +
 	"\x11UpdateUserInfoReq\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12\x16\n" +
@@ -833,20 +873,26 @@ const file_user_mgr_proto_rawDesc = "" +
 	"\x05phone\x18\x06 \x01(\tR\x05phone\x12\x14\n" +
 	"\x05email\x18\a \x01(\tR\x05email\x12\x17\n" +
 	"\aid_type\x18\b \x01(\x05R\x06idType\x12\x17\n" +
-	"\aid_card\x18\t \x01(\tR\x06idCard\",\n" +
+	"\aid_card\x18\t \x01(\tR\x06idCard\x12\x10\n" +
+	"\x03uid\x18\n" +
+	" \x01(\x03R\x03uid\",\n" +
 	"\x11UpdateUserInfoRsp\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\tR\x06userId\"G\n" +
 	"\x10CheckPasswordReq\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x1a\n" +
-	"\bpassword\x18\x02 \x01(\tR\bpassword\"\x12\n" +
-	"\x10CheckPasswordRsp\"k\n" +
+	"\bpassword\x18\x02 \x01(\tR\bpassword\"=\n" +
+	"\x10CheckPasswordRsp\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x10\n" +
+	"\x03uid\x18\x02 \x01(\x03R\x03uid\"k\n" +
 	"\x0fGetUserTokenReq\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x1a\n" +
 	"\bpassword\x18\x02 \x01(\tR\bpassword\x12#\n" +
-	"\rbusiness_info\x18\x03 \x01(\tR\fbusinessInfo\"0\n" +
+	"\rbusiness_info\x18\x03 \x01(\tR\fbusinessInfo\"[\n" +
 	"\x0fGetUserTokenRsp\x12\x1d\n" +
 	"\n" +
-	"user_token\x18\x01 \x01(\tR\tuserToken2\xa1\x03\n" +
+	"user_token\x18\x01 \x01(\tR\tuserToken\x12\x17\n" +
+	"\auser_id\x18\x02 \x01(\tR\x06userId\x12\x10\n" +
+	"\x03uid\x18\x03 \x01(\x03R\x03uid2\xa1\x03\n" +
 	"\aUserMgr\x125\n" +
 	"\aRegUser\x12\x14.user_mgr.RegUserReq\x1a\x14.user_mgr.RegUserRsp\x12J\n" +
 	"\x0eUpdateUserInfo\x12\x1b.user_mgr.UpdateUserInfoReq\x1a\x1b.user_mgr.UpdateUserInfoRsp\x12A\n" +
