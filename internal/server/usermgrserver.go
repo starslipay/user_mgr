@@ -52,3 +52,8 @@ func (s *UserMgrServer) GetUserToken(ctx context.Context, in *user_mgr_pb.GetUse
 	l := logic.NewGetUserTokenLogic(ctx, s.svcCtx)
 	return l.GetUserToken(in)
 }
+
+func (s *UserMgrServer) CheckUserToken(ctx context.Context, in *user_mgr_pb.CheckUserTokenReq) (*user_mgr_pb.CheckUserTokenRsp, error) {
+	l := logic.NewCheckUserTokenLogic(ctx, s.svcCtx)
+	return l.CheckUserToken(in)
+}

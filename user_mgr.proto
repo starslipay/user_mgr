@@ -89,6 +89,17 @@ message GetUserTokenRsp {
     int64 uid = 3;
 }
 
+message CheckUserTokenReq {
+    string user_id = 1;
+    string business_info = 2;
+    string user_token = 3;
+}
+
+message CheckUserTokenRsp {
+    string user_id = 1;
+    int32 valid_status = 2;  // 1: 有效;  2: 无效; 其他: 无意义
+}
+
 service UserMgr {
     rpc RegUser(RegUserReq) returns (RegUserRsp);
     rpc UpdateUserInfo(UpdateUserInfoReq) returns (UpdateUserInfoRsp);
@@ -96,4 +107,5 @@ service UserMgr {
     rpc GetUserInfo(GetUserInfoReq) returns (GetUserInfoRsp);
     rpc CheckPassword(CheckPasswordReq) returns (CheckPasswordRsp);
     rpc GetUserToken(GetUserTokenReq) returns (GetUserTokenRsp);
+    rpc CheckUserToken(CheckUserTokenReq) returns (CheckUserTokenRsp);
 }

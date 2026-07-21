@@ -30,6 +30,7 @@ var (
 	ErrPasswordWrong                           = newError(ModuleErrorBase+1002, "password wrong")
 	ErrUserAlreadyRegistered                   = newError(ModuleErrorBase+1003, "user already registered")
 	ErrRelationStateNotRegisteringOrRegistered = newError(ModuleErrorBase+1004, "relation state is not registering or registered")
+	ErrTokenInvalid                            = newError(ModuleErrorBase+1005, "user token invalid")
 )
 
 func newError(code int, msg string) *CodeMsg {
