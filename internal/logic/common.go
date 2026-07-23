@@ -3,8 +3,10 @@ package logic
 import (
 	"context"
 
+	"github.com/starslipay/paycomm/xerror"
 	"github.com/starslipay/user_mgr/internal/xerr"
 	"github.com/starslipay/user_mgr/model/mysql"
+	"google.golang.org/grpc/codes"
 
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
 )
@@ -28,12 +30,12 @@ func CheckUserRegistered(ctx context.Context, model mysql.TRelationModel, userId
 	relation, err := model.FindOne(ctx, userId)
 	if err != nil {
 		if err == sqlx.ErrNotFound {
-			return nil, xerr.ErrUserNotExist
+			return nil, xerror.NewBizError(codes.Internal, xerr.ErrCodeUserNotExist, "user not exist")
 		}
 		return nil, err
 	}
 	if relation.State != RelationStateRegistered {
-		return nil, xerr.ErrUserNotExist
+		return nil, xerror.NewBizError(codes.Internal, xerr.ErrCodeUserNotExist, "user not exist")
 	}
 	return relation, nil
 }

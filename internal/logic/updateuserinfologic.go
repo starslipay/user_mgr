@@ -3,10 +3,12 @@ package logic
 import (
 	"context"
 
+	"github.com/starslipay/paycomm/xerror"
 	"github.com/starslipay/user_mgr/internal/svc"
 	"github.com/starslipay/user_mgr/internal/xerr"
 	"github.com/starslipay/user_mgr/model/mysql"
 	"github.com/starslipay/user_mgr/user_mgr_pb"
+	"google.golang.org/grpc/codes"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -39,7 +41,7 @@ func (l *UpdateUserInfoLogic) UpdateUserInfo(in *user_mgr_pb.UpdateUserInfoReq) 
 	err = l.svcCtx.TUserInfoModelMaster.TransactCtx(l.ctx, func(ctx context.Context, tx mysql.TUserInfoModel) error {
 		userInfo, err := tx.FindOne(ctx, relation.Uid)
 		if err != nil {
-			return xerr.NewDBError("find user info failed: " + err.Error())
+			return xerror.NewBizError(codes.Internal, xerr.ErrCodeDBError, "find user info failed: "+err.Error())
 		}
 
 		// 传入的字段，才更新
@@ -70,7 +72,7 @@ func (l *UpdateUserInfoLogic) UpdateUserInfo(in *user_mgr_pb.UpdateUserInfoReq) 
 
 		err = tx.Update(ctx, userInfo)
 		if err != nil {
-			return xerr.NewDBError("update user info failed: " + err.Error())
+			return xerror.NewBizError(codes.Internal, xerr.ErrCodeDBError, "update user info failed: "+err.Error())
 		}
 		return nil
 	})

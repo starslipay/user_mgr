@@ -3,9 +3,11 @@ package logic
 import (
 	"context"
 
+	"github.com/starslipay/paycomm/xerror"
 	"github.com/starslipay/user_mgr/internal/svc"
 	"github.com/starslipay/user_mgr/internal/xerr"
 	"github.com/starslipay/user_mgr/user_mgr_pb"
+	"google.golang.org/grpc/codes"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -36,12 +38,12 @@ func (l *GetUserTokenLogic) GetUserToken(in *user_mgr_pb.GetUserTokenReq) (*user
 
 	userInfo, err := l.svcCtx.TUserInfoModelMaster.FindOne(l.ctx, relation.Uid)
 	if err != nil {
-		return nil, xerr.NewDBError("find user info failed: " + err.Error())
+		return nil, xerror.NewBizError(codes.Internal, xerr.ErrCodeDBError, "find user info failed: "+err.Error())
 	}
 
 	inPasswordMD5 := GenMD5(in.Password)
 	if userInfo.Password != inPasswordMD5 {
-		return nil, xerr.ErrPasswordWrong
+		return nil, xerror.NewBizError(codes.Internal, xerr.ErrCodePasswordWrong, "password wrong")
 	}
 
 	userToken := GenUserToken(in.UserId, in.BusinessInfo)

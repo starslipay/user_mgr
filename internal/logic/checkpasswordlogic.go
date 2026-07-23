@@ -6,7 +6,9 @@ import (
 	"github.com/starslipay/user_mgr/internal/svc"
 	"github.com/starslipay/user_mgr/internal/xerr"
 	"github.com/starslipay/user_mgr/user_mgr_pb"
+	"google.golang.org/grpc/codes"
 
+	"github.com/starslipay/paycomm/xerror"
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
@@ -41,12 +43,12 @@ func (l *CheckPasswordLogic) CheckPassword(in *user_mgr_pb.CheckPasswordReq) (*u
 
 	userInfo, err := l.svcCtx.TUserInfoModelMaster.FindOne(l.ctx, relation.Uid)
 	if err != nil {
-		return nil, xerr.NewDBError("find user info failed: " + err.Error())
+		return nil, xerror.NewBizError(codes.Internal, xerr.ErrCodeDBError, "find user info failed: "+err.Error())
 	}
 
 	inPasswordMD5 := GenMD5(in.Password)
 	if userInfo.Password != inPasswordMD5 {
-		return nil, xerr.ErrPasswordWrong
+		return nil, xerror.NewBizError(codes.Internal, xerr.ErrCodePasswordWrong, "password is wrong")
 	}
 
 	return &user_mgr_pb.CheckPasswordRsp{

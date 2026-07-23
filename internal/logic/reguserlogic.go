@@ -4,11 +4,13 @@ import (
 	"context"
 
 	"github.com/starslipay/account_mgr/account_mgr_pb"
+	"github.com/starslipay/paycomm/xerror"
 	"github.com/starslipay/trade_id_mgr/trade_id_mgr_pb"
 	"github.com/starslipay/user_mgr/internal/svc"
 	"github.com/starslipay/user_mgr/internal/xerr"
 	"github.com/starslipay/user_mgr/model/mysql"
 	"github.com/starslipay/user_mgr/user_mgr_pb"
+	"google.golang.org/grpc/codes"
 
 	"github.com/zeromicro/go-zero/core/logx"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
@@ -69,15 +71,15 @@ func (l *RegUserLogic) RegUser(in *user_mgr_pb.RegUserReq) (*user_mgr_pb.RegUser
 		if err == sqlx.ErrNotFound {
 			isExistRelation = false
 		} else {
-			return nil, xerr.NewDBError("find relation failed: " + err.Error())
+			return nil, xerror.NewBizError(codes.Internal, xerr.ErrCodeDBError, "find relation failed: "+err.Error())
 		}
 	} else {
 		if RelationStateRegistering == relation.State {
 			// 继续关联中，不执行后续操作
 		} else if RelationStateRegistered == relation.State {
-			return nil, xerr.ErrUserAlreadyRegistered
+			return nil, xerror.NewBizError(codes.Internal, xerr.ErrCodeUserAlreadyRegistered, "user already registered")
 		} else {
-			return nil, xerr.ErrRelationStateNotRegisteringOrRegistered
+			return nil, xerror.NewBizError(codes.Internal, xerr.ErrCodeRelationStateNotRegisteringOrRegistered, "relation state not registering or registered")
 		}
 	}
 
@@ -96,7 +98,7 @@ func (l *RegUserLogic) RegUser(in *user_mgr_pb.RegUserReq) (*user_mgr_pb.RegUser
 			State:  RelationStateRegistering, // 注册中
 		})
 		if err != nil {
-			return nil, xerr.NewDBError("insert relation failed: " + err.Error())
+			return nil, xerror.NewBizError(codes.Internal, xerr.ErrCodeDBError, "insert relation failed: "+err.Error())
 		}
 	}
 
@@ -106,7 +108,7 @@ func (l *RegUserLogic) RegUser(in *user_mgr_pb.RegUserReq) (*user_mgr_pb.RegUser
 		if err == sqlx.ErrNotFound {
 			isExistUserInfo = false
 		} else {
-			return nil, xerr.NewDBError("find user info failed: " + err.Error())
+			return nil, xerror.NewBizError(codes.Internal, xerr.ErrCodeDBError, "find user info failed: "+err.Error())
 		}
 	}
 	if !isExistUserInfo {
@@ -125,7 +127,7 @@ func (l *RegUserLogic) RegUser(in *user_mgr_pb.RegUserReq) (*user_mgr_pb.RegUser
 			IdCard:   in.IdCard,
 		})
 		if err != nil {
-			return nil, xerr.NewDBError("insert user info failed: " + err.Error())
+			return nil, xerror.NewBizError(codes.Internal, xerr.ErrCodeDBError, "insert user info failed: "+err.Error())
 		}
 	} else {
 		userInfo.UserId = in.UserId
@@ -141,7 +143,7 @@ func (l *RegUserLogic) RegUser(in *user_mgr_pb.RegUserReq) (*user_mgr_pb.RegUser
 		// 更新用户信息
 		err = l.svcCtx.TUserInfoModelMaster.Update(l.ctx, userInfo)
 		if err != nil {
-			return nil, xerr.NewDBError("update user info failed: " + err.Error())
+			return nil, xerror.NewBizError(codes.Internal, xerr.ErrCodeDBError, "update user info failed: "+err.Error())
 		}
 	}
 
@@ -152,7 +154,7 @@ func (l *RegUserLogic) RegUser(in *user_mgr_pb.RegUserReq) (*user_mgr_pb.RegUser
 		CurType: 1, // 1-人民币
 	})
 	if err != nil {
-		return nil, xerr.NewDBError("create account failed: " + err.Error())
+		return nil, xerror.NewBizError(codes.Internal, xerr.ErrCodeDBError, "create account failed: "+err.Error())
 	}
 	if createAccountRsp.IsRepeat {
 		l.Logger.Info("create account already exist, create repeat")
@@ -164,7 +166,7 @@ func (l *RegUserLogic) RegUser(in *user_mgr_pb.RegUserReq) (*user_mgr_pb.RegUser
 		State:  RelationStateRegistered, // 注册成功
 	})
 	if err != nil {
-		return nil, xerr.NewDBError("update relation state failed: " + err.Error())
+		return nil, xerror.NewBizError(codes.Internal, xerr.ErrCodeDBError, "update relation state failed: "+err.Error())
 	}
 
 	return &user_mgr_pb.RegUserRsp{
