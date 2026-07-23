@@ -71,7 +71,7 @@ func (l *RegUserLogic) RegUser(in *user_mgr_pb.RegUserReq) (*user_mgr_pb.RegUser
 		if err == sqlx.ErrNotFound {
 			isExistRelation = false
 		} else {
-			return nil, xerror.NewBizError(codes.Internal, xerr.ErrCodeDBError, "find relation failed: "+err.Error())
+			return nil, xerror.NewBizError(codes.Internal, xerr.ErrCodeUnKnownDBError, "find relation failed: "+err.Error())
 		}
 	} else {
 		if RelationStateRegistering == relation.State {
@@ -98,7 +98,7 @@ func (l *RegUserLogic) RegUser(in *user_mgr_pb.RegUserReq) (*user_mgr_pb.RegUser
 			State:  RelationStateRegistering, // 注册中
 		})
 		if err != nil {
-			return nil, xerror.NewBizError(codes.Internal, xerr.ErrCodeDBError, "insert relation failed: "+err.Error())
+			return nil, xerror.NewBizError(codes.Internal, xerr.ErrCodeUnKnownDBError, "insert relation failed: "+err.Error())
 		}
 	}
 
@@ -108,7 +108,7 @@ func (l *RegUserLogic) RegUser(in *user_mgr_pb.RegUserReq) (*user_mgr_pb.RegUser
 		if err == sqlx.ErrNotFound {
 			isExistUserInfo = false
 		} else {
-			return nil, xerror.NewBizError(codes.Internal, xerr.ErrCodeDBError, "find user info failed: "+err.Error())
+			return nil, xerror.NewBizError(codes.Internal, xerr.ErrCodeUnKnownDBError, "find user info failed: "+err.Error())
 		}
 	}
 	if !isExistUserInfo {
@@ -127,7 +127,7 @@ func (l *RegUserLogic) RegUser(in *user_mgr_pb.RegUserReq) (*user_mgr_pb.RegUser
 			IdCard:   in.IdCard,
 		})
 		if err != nil {
-			return nil, xerror.NewBizError(codes.Internal, xerr.ErrCodeDBError, "insert user info failed: "+err.Error())
+			return nil, xerror.NewBizError(codes.Internal, xerr.ErrCodeUnKnownDBError, "insert user info failed: "+err.Error())
 		}
 	} else {
 		userInfo.UserId = in.UserId
@@ -143,7 +143,7 @@ func (l *RegUserLogic) RegUser(in *user_mgr_pb.RegUserReq) (*user_mgr_pb.RegUser
 		// 更新用户信息
 		err = l.svcCtx.TUserInfoModelMaster.Update(l.ctx, userInfo)
 		if err != nil {
-			return nil, xerror.NewBizError(codes.Internal, xerr.ErrCodeDBError, "update user info failed: "+err.Error())
+			return nil, xerror.NewBizError(codes.Internal, xerr.ErrCodeUnKnownDBError, "update user info failed: "+err.Error())
 		}
 	}
 
@@ -154,7 +154,7 @@ func (l *RegUserLogic) RegUser(in *user_mgr_pb.RegUserReq) (*user_mgr_pb.RegUser
 		CurType: 1, // 1-人民币
 	})
 	if err != nil {
-		return nil, xerror.NewBizError(codes.Internal, xerr.ErrCodeDBError, "create account failed: "+err.Error())
+		return nil, err
 	}
 	if createAccountRsp.IsRepeat {
 		l.Logger.Info("create account already exist, create repeat")
@@ -166,7 +166,7 @@ func (l *RegUserLogic) RegUser(in *user_mgr_pb.RegUserReq) (*user_mgr_pb.RegUser
 		State:  RelationStateRegistered, // 注册成功
 	})
 	if err != nil {
-		return nil, xerror.NewBizError(codes.Internal, xerr.ErrCodeDBError, "update relation state failed: "+err.Error())
+		return nil, xerror.NewBizError(codes.Internal, xerr.ErrCodeUnKnownDBError, "update relation state failed: "+err.Error())
 	}
 
 	return &user_mgr_pb.RegUserRsp{

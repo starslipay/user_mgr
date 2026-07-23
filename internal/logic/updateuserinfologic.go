@@ -41,7 +41,7 @@ func (l *UpdateUserInfoLogic) UpdateUserInfo(in *user_mgr_pb.UpdateUserInfoReq) 
 	err = l.svcCtx.TUserInfoModelMaster.TransactCtx(l.ctx, func(ctx context.Context, tx mysql.TUserInfoModel) error {
 		userInfo, err := tx.FindOne(ctx, relation.Uid)
 		if err != nil {
-			return xerror.NewBizError(codes.Internal, xerr.ErrCodeDBError, "find user info failed: "+err.Error())
+			return xerror.NewBizError(codes.Internal, xerr.ErrCodeUnKnownDBError, "find user info failed: "+err.Error())
 		}
 
 		// 传入的字段，才更新
@@ -72,7 +72,7 @@ func (l *UpdateUserInfoLogic) UpdateUserInfo(in *user_mgr_pb.UpdateUserInfoReq) 
 
 		err = tx.Update(ctx, userInfo)
 		if err != nil {
-			return xerror.NewBizError(codes.Internal, xerr.ErrCodeDBError, "update user info failed: "+err.Error())
+			return xerror.NewBizError(codes.Internal, xerr.ErrCodeUnKnownDBError, "update user info failed: "+err.Error())
 		}
 		return nil
 	})

@@ -38,7 +38,7 @@ func (l *GetUserTokenLogic) GetUserToken(in *user_mgr_pb.GetUserTokenReq) (*user
 
 	userInfo, err := l.svcCtx.TUserInfoModelMaster.FindOne(l.ctx, relation.Uid)
 	if err != nil {
-		return nil, xerror.NewBizError(codes.Internal, xerr.ErrCodeDBError, "find user info failed: "+err.Error())
+		return nil, xerror.NewBizError(codes.Internal, xerr.ErrCodeUnKnownDBError, "find user info failed: "+err.Error())
 	}
 
 	inPasswordMD5 := GenMD5(in.Password)
