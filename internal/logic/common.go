@@ -32,7 +32,7 @@ func CheckUserRegistered(ctx context.Context, model mysql.TRelationModel, userId
 		if err == sqlx.ErrNotFound {
 			return nil, xerror.NewBizError(codes.Internal, xerr.ErrCodeUserNotExist, "user not exist")
 		}
-		return nil, err
+		return nil, xerror.NewBizError(codes.Internal, xerr.ErrCodeDBError, "find user relation failed: "+err.Error())
 	}
 	if relation.State != RelationStateRegistered {
 		return nil, xerror.NewBizError(codes.Internal, xerr.ErrCodeUserNotExist, "user not exist")

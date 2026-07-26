@@ -10,7 +10,7 @@ var (
 
 var (
 	// 系统错误 0000-0999
-	ErrCodeUnKnownDBError = ModuleErrorBase + 0
+	ErrCodeDBError        = ModuleErrorBase + 0
 	ErrCodeServerInternal = ModuleErrorBase + 1
 
 	// 业务错误码 1000-1999

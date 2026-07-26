@@ -33,7 +33,7 @@ func (l *GetRelationLogic) GetRelation(in *user_mgr_pb.GetRelationReq) (*user_mg
 		if err == sqlx.ErrNotFound {
 			return nil, xerror.NewBizError(codes.Internal, xerr.ErrCodeUserNotExist, "user not exist")
 		} else {
-			return nil, xerror.NewBizError(codes.Internal, xerr.ErrCodeUnKnownDBError, "find relation failed: "+err.Error())
+			return nil, xerror.NewBizError(codes.Internal, xerr.ErrCodeDBError, "find relation failed: "+err.Error())
 		}
 	}
 
