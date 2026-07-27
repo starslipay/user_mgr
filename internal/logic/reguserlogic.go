@@ -154,7 +154,7 @@ func (l *RegUserLogic) RegUser(in *user_mgr_pb.RegUserReq) (*user_mgr_pb.RegUser
 		CurType: 1, // 1-人民币
 	})
 	if err != nil {
-		return nil, xerr.ParseRPCError(err)
+		return nil, xerror.HandleRPCError(err, "account_mgr.CreateAccount")
 	}
 	if createAccountRsp.IsRepeat {
 		l.Logger.Info("create account already exist, create repeat")
@@ -177,7 +177,7 @@ func (l *RegUserLogic) RegUser(in *user_mgr_pb.RegUserReq) (*user_mgr_pb.RegUser
 func (l *RegUserLogic) genUid() (int64, error) {
 	genUidRsp, err := l.svcCtx.TradeIdMgrRpcClient.GenUid(l.ctx, &trade_id_mgr_pb.GenUidReq{})
 	if err != nil {
-		return 0, xerr.ParseRPCError(err)
+		return 0, xerror.HandleRPCError(err, "trade_id_mgr.GenUid")
 	}
 	return genUidRsp.Uid, nil
 }
