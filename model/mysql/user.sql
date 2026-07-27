@@ -29,13 +29,5 @@ CREATE TABLE `t_user_info` (
   INDEX `idx_update_time` (`update_time`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-CREATE TABLE `t_uid_segment` (
-  `id` BIGINT NOT NULL COMMENT '主键',
-  `uid_max` BIGINT NOT NULL COMMENT '已使用的最大用户ID',
-  `step` BIGINT NOT NULL COMMENT '步长',
-  `create_time` datetime DEFAULT CURRENT_TIMESTAMP,
-  `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 -- goctl model mysql ddl -src user.sql -dir .
 -- -c：开启缓存（redis，可选，不加则无缓存）

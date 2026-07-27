@@ -12,9 +12,8 @@ import (
 type ServiceContext struct {
 	Config config.Config
 
-	TRelationModelMaster   mysql.TRelationModel
-	TUserInfoModelMaster   mysql.TUserInfoModel
-	TUidSegmentModelMaster mysql.TUidSegmentModel
+	TRelationModelMaster mysql.TRelationModel
+	TUserInfoModelMaster mysql.TUserInfoModel
 
 	TRelationModelSlave mysql.TRelationModel
 	TUserInfoModelSlave mysql.TUserInfoModel
@@ -27,10 +26,9 @@ func NewServiceContext(c config.Config) *ServiceContext {
 	SqlMasterConn := sqlx.NewMysql(c.MasterDBConfig.DataSource)
 	SqlSlaveConn := sqlx.NewMysql(c.SlaveDBConfig.DataSource)
 	return &ServiceContext{
-		Config:                 c,
-		TRelationModelMaster:   mysql.NewTRelationModel(SqlMasterConn),
-		TUserInfoModelMaster:   mysql.NewTUserInfoModel(SqlMasterConn),
-		TUidSegmentModelMaster: mysql.NewTUidSegmentModel(SqlMasterConn),
+		Config:               c,
+		TRelationModelMaster: mysql.NewTRelationModel(SqlMasterConn),
+		TUserInfoModelMaster: mysql.NewTUserInfoModel(SqlMasterConn),
 
 		TRelationModelSlave: mysql.NewTRelationModel(SqlSlaveConn),
 		TUserInfoModelSlave: mysql.NewTUserInfoModel(SqlSlaveConn),
