@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/starslipay/user_mgr/internal/svc"
+	"github.com/starslipay/user_mgr/internal/util"
 	"github.com/starslipay/user_mgr/user_mgr_pb"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -38,7 +39,7 @@ func (l *CheckUserTokenLogic) CheckUserToken(in *user_mgr_pb.CheckUserTokenReq) 
 		return nil, err
 	}
 
-	isValid := CheckUserToken(in.UserToken, in.UserId, in.BusinessInfo)
+	isValid := util.CheckUserToken(in.UserToken, in.UserId, in.BusinessInfo)
 	validStatus := ValidStatusInvalid
 	if isValid {
 		validStatus = ValidStatusValid

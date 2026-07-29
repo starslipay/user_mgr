@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/starslipay/user_mgr/internal/svc"
+	"github.com/starslipay/user_mgr/internal/util"
 	"github.com/starslipay/user_mgr/internal/xerr"
 	"github.com/starslipay/user_mgr/user_mgr_pb"
 	"google.golang.org/grpc/codes"
@@ -46,7 +47,7 @@ func (l *CheckPasswordLogic) CheckPassword(in *user_mgr_pb.CheckPasswordReq) (*u
 		return nil, xerror.NewBizError(codes.Internal, xerr.ErrCodeDBError, "find user info failed: "+err.Error())
 	}
 
-	inPasswordMD5 := GenMD5(in.Password)
+	inPasswordMD5 := util.GenMD5(in.Password)
 	if userInfo.Password != inPasswordMD5 {
 		return nil, xerror.NewBizError(codes.Internal, xerr.ErrCodePasswordWrong, "password is wrong")
 	}

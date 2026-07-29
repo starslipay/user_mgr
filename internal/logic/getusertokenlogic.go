@@ -5,6 +5,7 @@ import (
 
 	"github.com/starslipay/paycomm/xerror"
 	"github.com/starslipay/user_mgr/internal/svc"
+	"github.com/starslipay/user_mgr/internal/util"
 	"github.com/starslipay/user_mgr/internal/xerr"
 	"github.com/starslipay/user_mgr/user_mgr_pb"
 	"google.golang.org/grpc/codes"
@@ -41,12 +42,12 @@ func (l *GetUserTokenLogic) GetUserToken(in *user_mgr_pb.GetUserTokenReq) (*user
 		return nil, xerror.NewBizError(codes.Internal, xerr.ErrCodeDBError, "find user info failed: "+err.Error())
 	}
 
-	inPasswordMD5 := GenMD5(in.Password)
+	inPasswordMD5 := util.GenMD5(in.Password)
 	if userInfo.Password != inPasswordMD5 {
 		return nil, xerror.NewBizError(codes.Internal, xerr.ErrCodePasswordWrong, "password wrong")
 	}
 
-	userToken := GenUserToken(in.UserId, in.BusinessInfo)
+	userToken := util.GenUserToken(in.UserId, in.BusinessInfo)
 
 	return &user_mgr_pb.GetUserTokenRsp{
 		UserToken: userToken,

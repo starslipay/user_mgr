@@ -7,6 +7,7 @@ import (
 	"github.com/starslipay/paycomm/xerror"
 	"github.com/starslipay/trade_id_mgr/trade_id_mgr_pb"
 	"github.com/starslipay/user_mgr/internal/svc"
+	"github.com/starslipay/user_mgr/internal/util"
 	"github.com/starslipay/user_mgr/internal/xerr"
 	"github.com/starslipay/user_mgr/model/mysql"
 	"github.com/starslipay/user_mgr/user_mgr_pb"
@@ -62,7 +63,7 @@ func (l *RegUserLogic) RegUser(in *user_mgr_pb.RegUserReq) (*user_mgr_pb.RegUser
 		return nil, err
 	}
 	// TODO password这种参数需要加密传输
-	PasswordMD5 := GenMD5(in.Password)
+	PasswordMD5 := util.GenMD5(in.Password)
 
 	isExistRelation := true
 	// 先查询relation是否已经存在
