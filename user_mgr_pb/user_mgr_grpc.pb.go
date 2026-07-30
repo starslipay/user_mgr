@@ -19,13 +19,14 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	UserMgr_RegUser_FullMethodName        = "/user_mgr.UserMgr/RegUser"
-	UserMgr_UpdateUserInfo_FullMethodName = "/user_mgr.UserMgr/UpdateUserInfo"
-	UserMgr_GetRelation_FullMethodName    = "/user_mgr.UserMgr/GetRelation"
-	UserMgr_GetUserInfo_FullMethodName    = "/user_mgr.UserMgr/GetUserInfo"
-	UserMgr_CheckPassword_FullMethodName  = "/user_mgr.UserMgr/CheckPassword"
-	UserMgr_GetUserToken_FullMethodName   = "/user_mgr.UserMgr/GetUserToken"
-	UserMgr_CheckUserToken_FullMethodName = "/user_mgr.UserMgr/CheckUserToken"
+	UserMgr_RegUser_FullMethodName         = "/user_mgr.UserMgr/RegUser"
+	UserMgr_UpdateUserInfo_FullMethodName  = "/user_mgr.UserMgr/UpdateUserInfo"
+	UserMgr_GetRelation_FullMethodName     = "/user_mgr.UserMgr/GetRelation"
+	UserMgr_GetUserInfo_FullMethodName     = "/user_mgr.UserMgr/GetUserInfo"
+	UserMgr_CheckPassword_FullMethodName   = "/user_mgr.UserMgr/CheckPassword"
+	UserMgr_GetUserToken_FullMethodName    = "/user_mgr.UserMgr/GetUserToken"
+	UserMgr_CheckUserToken_FullMethodName  = "/user_mgr.UserMgr/CheckUserToken"
+	UserMgr_GetMerchantInfo_FullMethodName = "/user_mgr.UserMgr/GetMerchantInfo"
 )
 
 // UserMgrClient is the client API for UserMgr service.
@@ -39,6 +40,8 @@ type UserMgrClient interface {
 	CheckPassword(ctx context.Context, in *CheckPasswordReq, opts ...grpc.CallOption) (*CheckPasswordRsp, error)
 	GetUserToken(ctx context.Context, in *GetUserTokenReq, opts ...grpc.CallOption) (*GetUserTokenRsp, error)
 	CheckUserToken(ctx context.Context, in *CheckUserTokenReq, opts ...grpc.CallOption) (*CheckUserTokenRsp, error)
+	// 模拟商户信息 mock
+	GetMerchantInfo(ctx context.Context, in *GetMerchantInfoReq, opts ...grpc.CallOption) (*GetMerchantInfoRsp, error)
 }
 
 type userMgrClient struct {
@@ -119,6 +122,16 @@ func (c *userMgrClient) CheckUserToken(ctx context.Context, in *CheckUserTokenRe
 	return out, nil
 }
 
+func (c *userMgrClient) GetMerchantInfo(ctx context.Context, in *GetMerchantInfoReq, opts ...grpc.CallOption) (*GetMerchantInfoRsp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetMerchantInfoRsp)
+	err := c.cc.Invoke(ctx, UserMgr_GetMerchantInfo_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // UserMgrServer is the server API for UserMgr service.
 // All implementations must embed UnimplementedUserMgrServer
 // for forward compatibility.
@@ -130,6 +143,8 @@ type UserMgrServer interface {
 	CheckPassword(context.Context, *CheckPasswordReq) (*CheckPasswordRsp, error)
 	GetUserToken(context.Context, *GetUserTokenReq) (*GetUserTokenRsp, error)
 	CheckUserToken(context.Context, *CheckUserTokenReq) (*CheckUserTokenRsp, error)
+	// 模拟商户信息 mock
+	GetMerchantInfo(context.Context, *GetMerchantInfoReq) (*GetMerchantInfoRsp, error)
 	mustEmbedUnimplementedUserMgrServer()
 }
 
@@ -160,6 +175,9 @@ func (UnimplementedUserMgrServer) GetUserToken(context.Context, *GetUserTokenReq
 }
 func (UnimplementedUserMgrServer) CheckUserToken(context.Context, *CheckUserTokenReq) (*CheckUserTokenRsp, error) {
 	return nil, status.Error(codes.Unimplemented, "method CheckUserToken not implemented")
+}
+func (UnimplementedUserMgrServer) GetMerchantInfo(context.Context, *GetMerchantInfoReq) (*GetMerchantInfoRsp, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetMerchantInfo not implemented")
 }
 func (UnimplementedUserMgrServer) mustEmbedUnimplementedUserMgrServer() {}
 func (UnimplementedUserMgrServer) testEmbeddedByValue()                 {}
@@ -308,6 +326,24 @@ func _UserMgr_CheckUserToken_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
+func _UserMgr_GetMerchantInfo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetMerchantInfoReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserMgrServer).GetMerchantInfo(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserMgr_GetMerchantInfo_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserMgrServer).GetMerchantInfo(ctx, req.(*GetMerchantInfoReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // UserMgr_ServiceDesc is the grpc.ServiceDesc for UserMgr service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -342,6 +378,10 @@ var UserMgr_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CheckUserToken",
 			Handler:    _UserMgr_CheckUserToken_Handler,
+		},
+		{
+			MethodName: "GetMerchantInfo",
+			Handler:    _UserMgr_GetMerchantInfo_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

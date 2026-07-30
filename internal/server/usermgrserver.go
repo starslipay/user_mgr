@@ -57,3 +57,9 @@ func (s *UserMgrServer) CheckUserToken(ctx context.Context, in *user_mgr_pb.Chec
 	l := logic.NewCheckUserTokenLogic(ctx, s.svcCtx)
 	return l.CheckUserToken(in)
 }
+
+// 模拟商户信息 mock
+func (s *UserMgrServer) GetMerchantInfo(ctx context.Context, in *user_mgr_pb.GetMerchantInfoReq) (*user_mgr_pb.GetMerchantInfoRsp, error) {
+	l := logic.NewGetMerchantInfoLogic(ctx, s.svcCtx)
+	return l.GetMerchantInfo(in)
+}

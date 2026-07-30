@@ -936,6 +936,111 @@ func (x *CheckUserTokenRsp) GetValidStatus() int32 {
 	return 0
 }
 
+// 模拟商户信息 mock
+type GetMerchantInfoReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	MerchantId    string                 `protobuf:"bytes,1,opt,name=merchant_id,json=merchantId,proto3" json:"merchant_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetMerchantInfoReq) Reset() {
+	*x = GetMerchantInfoReq{}
+	mi := &file_user_mgr_proto_msgTypes[14]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetMerchantInfoReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetMerchantInfoReq) ProtoMessage() {}
+
+func (x *GetMerchantInfoReq) ProtoReflect() protoreflect.Message {
+	mi := &file_user_mgr_proto_msgTypes[14]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetMerchantInfoReq.ProtoReflect.Descriptor instead.
+func (*GetMerchantInfoReq) Descriptor() ([]byte, []int) {
+	return file_user_mgr_proto_rawDescGZIP(), []int{14}
+}
+
+func (x *GetMerchantInfoReq) GetMerchantId() string {
+	if x != nil {
+		return x.MerchantId
+	}
+	return ""
+}
+
+type GetMerchantInfoRsp struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	MerchantId    string                 `protobuf:"bytes,1,opt,name=merchant_id,json=merchantId,proto3" json:"merchant_id,omitempty"`
+	MerchantUid   int64                  `protobuf:"varint,2,opt,name=merchant_uid,json=merchantUid,proto3" json:"merchant_uid,omitempty"`
+	MerchantName  string                 `protobuf:"bytes,3,opt,name=merchant_name,json=merchantName,proto3" json:"merchant_name,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetMerchantInfoRsp) Reset() {
+	*x = GetMerchantInfoRsp{}
+	mi := &file_user_mgr_proto_msgTypes[15]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetMerchantInfoRsp) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetMerchantInfoRsp) ProtoMessage() {}
+
+func (x *GetMerchantInfoRsp) ProtoReflect() protoreflect.Message {
+	mi := &file_user_mgr_proto_msgTypes[15]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetMerchantInfoRsp.ProtoReflect.Descriptor instead.
+func (*GetMerchantInfoRsp) Descriptor() ([]byte, []int) {
+	return file_user_mgr_proto_rawDescGZIP(), []int{15}
+}
+
+func (x *GetMerchantInfoRsp) GetMerchantId() string {
+	if x != nil {
+		return x.MerchantId
+	}
+	return ""
+}
+
+func (x *GetMerchantInfoRsp) GetMerchantUid() int64 {
+	if x != nil {
+		return x.MerchantUid
+	}
+	return 0
+}
+
+func (x *GetMerchantInfoRsp) GetMerchantName() string {
+	if x != nil {
+		return x.MerchantName
+	}
+	return ""
+}
+
 var File_user_mgr_proto protoreflect.FileDescriptor
 
 const file_user_mgr_proto_rawDesc = "" +
@@ -1012,7 +1117,15 @@ const file_user_mgr_proto_rawDesc = "" +
 	"user_token\x18\x03 \x01(\tR\tuserToken\"O\n" +
 	"\x11CheckUserTokenRsp\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\tR\x06userId\x12!\n" +
-	"\fvalid_status\x18\x02 \x01(\x05R\vvalidStatus2\xed\x03\n" +
+	"\fvalid_status\x18\x02 \x01(\x05R\vvalidStatus\"5\n" +
+	"\x12GetMerchantInfoReq\x12\x1f\n" +
+	"\vmerchant_id\x18\x01 \x01(\tR\n" +
+	"merchantId\"}\n" +
+	"\x12GetMerchantInfoRsp\x12\x1f\n" +
+	"\vmerchant_id\x18\x01 \x01(\tR\n" +
+	"merchantId\x12!\n" +
+	"\fmerchant_uid\x18\x02 \x01(\x03R\vmerchantUid\x12#\n" +
+	"\rmerchant_name\x18\x03 \x01(\tR\fmerchantName2\xbc\x04\n" +
 	"\aUserMgr\x125\n" +
 	"\aRegUser\x12\x14.user_mgr.RegUserReq\x1a\x14.user_mgr.RegUserRsp\x12J\n" +
 	"\x0eUpdateUserInfo\x12\x1b.user_mgr.UpdateUserInfoReq\x1a\x1b.user_mgr.UpdateUserInfoRsp\x12A\n" +
@@ -1020,7 +1133,8 @@ const file_user_mgr_proto_rawDesc = "" +
 	"\vGetUserInfo\x12\x18.user_mgr.GetUserInfoReq\x1a\x18.user_mgr.GetUserInfoRsp\x12G\n" +
 	"\rCheckPassword\x12\x1a.user_mgr.CheckPasswordReq\x1a\x1a.user_mgr.CheckPasswordRsp\x12D\n" +
 	"\fGetUserToken\x12\x19.user_mgr.GetUserTokenReq\x1a\x19.user_mgr.GetUserTokenRsp\x12J\n" +
-	"\x0eCheckUserToken\x12\x1b.user_mgr.CheckUserTokenReq\x1a\x1b.user_mgr.CheckUserTokenRspB\x0fZ\r./user_mgr_pbb\x06proto3"
+	"\x0eCheckUserToken\x12\x1b.user_mgr.CheckUserTokenReq\x1a\x1b.user_mgr.CheckUserTokenRsp\x12M\n" +
+	"\x0fGetMerchantInfo\x12\x1c.user_mgr.GetMerchantInfoReq\x1a\x1c.user_mgr.GetMerchantInfoRspB\x0fZ\r./user_mgr_pbb\x06proto3"
 
 var (
 	file_user_mgr_proto_rawDescOnce sync.Once
@@ -1034,22 +1148,24 @@ func file_user_mgr_proto_rawDescGZIP() []byte {
 	return file_user_mgr_proto_rawDescData
 }
 
-var file_user_mgr_proto_msgTypes = make([]protoimpl.MessageInfo, 14)
+var file_user_mgr_proto_msgTypes = make([]protoimpl.MessageInfo, 16)
 var file_user_mgr_proto_goTypes = []any{
-	(*RegUserReq)(nil),        // 0: user_mgr.RegUserReq
-	(*GetRelationReq)(nil),    // 1: user_mgr.GetRelationReq
-	(*GetRelationRsp)(nil),    // 2: user_mgr.GetRelationRsp
-	(*RegUserRsp)(nil),        // 3: user_mgr.RegUserRsp
-	(*GetUserInfoReq)(nil),    // 4: user_mgr.GetUserInfoReq
-	(*GetUserInfoRsp)(nil),    // 5: user_mgr.GetUserInfoRsp
-	(*UpdateUserInfoReq)(nil), // 6: user_mgr.UpdateUserInfoReq
-	(*UpdateUserInfoRsp)(nil), // 7: user_mgr.UpdateUserInfoRsp
-	(*CheckPasswordReq)(nil),  // 8: user_mgr.CheckPasswordReq
-	(*CheckPasswordRsp)(nil),  // 9: user_mgr.CheckPasswordRsp
-	(*GetUserTokenReq)(nil),   // 10: user_mgr.GetUserTokenReq
-	(*GetUserTokenRsp)(nil),   // 11: user_mgr.GetUserTokenRsp
-	(*CheckUserTokenReq)(nil), // 12: user_mgr.CheckUserTokenReq
-	(*CheckUserTokenRsp)(nil), // 13: user_mgr.CheckUserTokenRsp
+	(*RegUserReq)(nil),         // 0: user_mgr.RegUserReq
+	(*GetRelationReq)(nil),     // 1: user_mgr.GetRelationReq
+	(*GetRelationRsp)(nil),     // 2: user_mgr.GetRelationRsp
+	(*RegUserRsp)(nil),         // 3: user_mgr.RegUserRsp
+	(*GetUserInfoReq)(nil),     // 4: user_mgr.GetUserInfoReq
+	(*GetUserInfoRsp)(nil),     // 5: user_mgr.GetUserInfoRsp
+	(*UpdateUserInfoReq)(nil),  // 6: user_mgr.UpdateUserInfoReq
+	(*UpdateUserInfoRsp)(nil),  // 7: user_mgr.UpdateUserInfoRsp
+	(*CheckPasswordReq)(nil),   // 8: user_mgr.CheckPasswordReq
+	(*CheckPasswordRsp)(nil),   // 9: user_mgr.CheckPasswordRsp
+	(*GetUserTokenReq)(nil),    // 10: user_mgr.GetUserTokenReq
+	(*GetUserTokenRsp)(nil),    // 11: user_mgr.GetUserTokenRsp
+	(*CheckUserTokenReq)(nil),  // 12: user_mgr.CheckUserTokenReq
+	(*CheckUserTokenRsp)(nil),  // 13: user_mgr.CheckUserTokenRsp
+	(*GetMerchantInfoReq)(nil), // 14: user_mgr.GetMerchantInfoReq
+	(*GetMerchantInfoRsp)(nil), // 15: user_mgr.GetMerchantInfoRsp
 }
 var file_user_mgr_proto_depIdxs = []int32{
 	0,  // 0: user_mgr.UserMgr.RegUser:input_type -> user_mgr.RegUserReq
@@ -1059,15 +1175,17 @@ var file_user_mgr_proto_depIdxs = []int32{
 	8,  // 4: user_mgr.UserMgr.CheckPassword:input_type -> user_mgr.CheckPasswordReq
 	10, // 5: user_mgr.UserMgr.GetUserToken:input_type -> user_mgr.GetUserTokenReq
 	12, // 6: user_mgr.UserMgr.CheckUserToken:input_type -> user_mgr.CheckUserTokenReq
-	3,  // 7: user_mgr.UserMgr.RegUser:output_type -> user_mgr.RegUserRsp
-	7,  // 8: user_mgr.UserMgr.UpdateUserInfo:output_type -> user_mgr.UpdateUserInfoRsp
-	2,  // 9: user_mgr.UserMgr.GetRelation:output_type -> user_mgr.GetRelationRsp
-	5,  // 10: user_mgr.UserMgr.GetUserInfo:output_type -> user_mgr.GetUserInfoRsp
-	9,  // 11: user_mgr.UserMgr.CheckPassword:output_type -> user_mgr.CheckPasswordRsp
-	11, // 12: user_mgr.UserMgr.GetUserToken:output_type -> user_mgr.GetUserTokenRsp
-	13, // 13: user_mgr.UserMgr.CheckUserToken:output_type -> user_mgr.CheckUserTokenRsp
-	7,  // [7:14] is the sub-list for method output_type
-	0,  // [0:7] is the sub-list for method input_type
+	14, // 7: user_mgr.UserMgr.GetMerchantInfo:input_type -> user_mgr.GetMerchantInfoReq
+	3,  // 8: user_mgr.UserMgr.RegUser:output_type -> user_mgr.RegUserRsp
+	7,  // 9: user_mgr.UserMgr.UpdateUserInfo:output_type -> user_mgr.UpdateUserInfoRsp
+	2,  // 10: user_mgr.UserMgr.GetRelation:output_type -> user_mgr.GetRelationRsp
+	5,  // 11: user_mgr.UserMgr.GetUserInfo:output_type -> user_mgr.GetUserInfoRsp
+	9,  // 12: user_mgr.UserMgr.CheckPassword:output_type -> user_mgr.CheckPasswordRsp
+	11, // 13: user_mgr.UserMgr.GetUserToken:output_type -> user_mgr.GetUserTokenRsp
+	13, // 14: user_mgr.UserMgr.CheckUserToken:output_type -> user_mgr.CheckUserTokenRsp
+	15, // 15: user_mgr.UserMgr.GetMerchantInfo:output_type -> user_mgr.GetMerchantInfoRsp
+	8,  // [8:16] is the sub-list for method output_type
+	0,  // [0:8] is the sub-list for method input_type
 	0,  // [0:0] is the sub-list for extension type_name
 	0,  // [0:0] is the sub-list for extension extendee
 	0,  // [0:0] is the sub-list for field type_name
@@ -1084,7 +1202,7 @@ func file_user_mgr_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_user_mgr_proto_rawDesc), len(file_user_mgr_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   14,
+			NumMessages:   16,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

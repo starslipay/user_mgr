@@ -31,37 +31,45 @@ func NewRegUserLogic(ctx context.Context, svcCtx *svc.ServiceContext) *RegUserLo
 	}
 }
 
-func (l *RegUserLogic) RegUser(in *user_mgr_pb.RegUserReq) (*user_mgr_pb.RegUserRsp, error) {
+func (l *RegUserLogic) checkInputParams(in *user_mgr_pb.RegUserReq) error {
 	if err := CheckUserId(in.UserId); err != nil {
-		return nil, err
+		return err
 	}
 	if err := CheckName(in.Name); err != nil {
-		return nil, err
+		return err
 	}
 	if err := CheckAge(in.Age); err != nil {
-		return nil, err
+		return err
 	}
 	if err := CheckGender(in.Gender); err != nil {
-		return nil, err
+		return err
 	}
 	if err := CheckAddress(in.Address); err != nil {
-		return nil, err
+		return err
 	}
 	if err := CheckPhone(in.Phone); err != nil {
-		return nil, err
+		return err
 	}
 	if err := CheckEmail(in.Email); err != nil {
-		return nil, err
+		return err
 	}
 	if err := CheckIdType(in.IdType); err != nil {
-		return nil, err
+		return err
 	}
 	if err := CheckIdCard(in.IdCard); err != nil {
-		return nil, err
+		return err
 	}
 	if err := CheckPassword(in.Password); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (l *RegUserLogic) RegUser(in *user_mgr_pb.RegUserReq) (*user_mgr_pb.RegUserRsp, error) {
+	if err := l.checkInputParams(in); err != nil {
 		return nil, err
 	}
+
 	// TODO password这种参数需要加密传输
 	PasswordMD5 := util.GenMD5(in.Password)
 

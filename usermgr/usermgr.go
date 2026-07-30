@@ -14,20 +14,22 @@ import (
 )
 
 type (
-	CheckPasswordReq  = user_mgr_pb.CheckPasswordReq
-	CheckPasswordRsp  = user_mgr_pb.CheckPasswordRsp
-	CheckUserTokenReq = user_mgr_pb.CheckUserTokenReq
-	CheckUserTokenRsp = user_mgr_pb.CheckUserTokenRsp
-	GetRelationReq    = user_mgr_pb.GetRelationReq
-	GetRelationRsp    = user_mgr_pb.GetRelationRsp
-	GetUserInfoReq    = user_mgr_pb.GetUserInfoReq
-	GetUserInfoRsp    = user_mgr_pb.GetUserInfoRsp
-	GetUserTokenReq   = user_mgr_pb.GetUserTokenReq
-	GetUserTokenRsp   = user_mgr_pb.GetUserTokenRsp
-	RegUserReq        = user_mgr_pb.RegUserReq
-	RegUserRsp        = user_mgr_pb.RegUserRsp
-	UpdateUserInfoReq = user_mgr_pb.UpdateUserInfoReq
-	UpdateUserInfoRsp = user_mgr_pb.UpdateUserInfoRsp
+	CheckPasswordReq   = user_mgr_pb.CheckPasswordReq
+	CheckPasswordRsp   = user_mgr_pb.CheckPasswordRsp
+	CheckUserTokenReq  = user_mgr_pb.CheckUserTokenReq
+	CheckUserTokenRsp  = user_mgr_pb.CheckUserTokenRsp
+	GetMerchantInfoReq = user_mgr_pb.GetMerchantInfoReq
+	GetMerchantInfoRsp = user_mgr_pb.GetMerchantInfoRsp
+	GetRelationReq     = user_mgr_pb.GetRelationReq
+	GetRelationRsp     = user_mgr_pb.GetRelationRsp
+	GetUserInfoReq     = user_mgr_pb.GetUserInfoReq
+	GetUserInfoRsp     = user_mgr_pb.GetUserInfoRsp
+	GetUserTokenReq    = user_mgr_pb.GetUserTokenReq
+	GetUserTokenRsp    = user_mgr_pb.GetUserTokenRsp
+	RegUserReq         = user_mgr_pb.RegUserReq
+	RegUserRsp         = user_mgr_pb.RegUserRsp
+	UpdateUserInfoReq  = user_mgr_pb.UpdateUserInfoReq
+	UpdateUserInfoRsp  = user_mgr_pb.UpdateUserInfoRsp
 
 	UserMgr interface {
 		RegUser(ctx context.Context, in *RegUserReq, opts ...grpc.CallOption) (*RegUserRsp, error)
@@ -37,6 +39,8 @@ type (
 		CheckPassword(ctx context.Context, in *CheckPasswordReq, opts ...grpc.CallOption) (*CheckPasswordRsp, error)
 		GetUserToken(ctx context.Context, in *GetUserTokenReq, opts ...grpc.CallOption) (*GetUserTokenRsp, error)
 		CheckUserToken(ctx context.Context, in *CheckUserTokenReq, opts ...grpc.CallOption) (*CheckUserTokenRsp, error)
+		// 模拟商户信息 mock
+		GetMerchantInfo(ctx context.Context, in *GetMerchantInfoReq, opts ...grpc.CallOption) (*GetMerchantInfoRsp, error)
 	}
 
 	defaultUserMgr struct {
@@ -83,4 +87,10 @@ func (m *defaultUserMgr) GetUserToken(ctx context.Context, in *GetUserTokenReq, 
 func (m *defaultUserMgr) CheckUserToken(ctx context.Context, in *CheckUserTokenReq, opts ...grpc.CallOption) (*CheckUserTokenRsp, error) {
 	client := user_mgr_pb.NewUserMgrClient(m.cli.Conn())
 	return client.CheckUserToken(ctx, in, opts...)
+}
+
+// 模拟商户信息 mock
+func (m *defaultUserMgr) GetMerchantInfo(ctx context.Context, in *GetMerchantInfoReq, opts ...grpc.CallOption) (*GetMerchantInfoRsp, error) {
+	client := user_mgr_pb.NewUserMgrClient(m.cli.Conn())
+	return client.GetMerchantInfo(ctx, in, opts...)
 }
