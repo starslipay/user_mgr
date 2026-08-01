@@ -36,7 +36,7 @@ func (l *GetMerchantInfoLogic) GetMerchantInfo(in *user_mgr_pb.GetMerchantInfoRe
 		return &user_mgr_pb.GetMerchantInfoRsp{
 			MerchantId:   in.MerchantId,
 			MerchantUid:  2000000000,
-			MerchantName: "starsli-shop平台商户",
+			MerchantName: "starslipay虚拟商城商户",
 		}, nil
 	} else if "3000000000" == in.MerchantId {
 		return &user_mgr_pb.GetMerchantInfoRsp{
