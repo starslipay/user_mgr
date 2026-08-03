@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	"github.com/starslipay/user_mgr/internal/config"
+	"github.com/starslipay/user_mgr/internal/metrics"
 	"github.com/starslipay/user_mgr/internal/server"
 	"github.com/starslipay/user_mgr/internal/svc"
 	"github.com/starslipay/user_mgr/user_mgr_pb"
@@ -32,6 +33,7 @@ func main() {
 			reflection.Register(grpcServer)
 		}
 	})
+	s.AddUnaryInterceptors(metrics.UnaryMetricInterceptor)
 	defer s.Stop()
 
 	fmt.Printf("Starting rpc server at %s...\n", c.ListenOn)
