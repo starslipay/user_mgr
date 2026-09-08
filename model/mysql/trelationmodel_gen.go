@@ -54,8 +54,11 @@ func newTRelationModel(conn sqlx.SqlConn) *defaultTRelationModel {
 
 func (m *defaultTRelationModel) Delete(ctx context.Context, userId string) error {
 	query := fmt.Sprintf("delete from %s where `user_id` = ?", m.table)
-	_, err := m.conn.ExecCtx(ctx, query, userId)
-	return err
+	ret, err := m.conn.ExecCtx(ctx, query, userId)
+	if err != nil {
+		return err
+	}
+	return checkOneRowAffected(ret)
 }
 
 func (m *defaultTRelationModel) FindOne(ctx context.Context, userId string) (*TRelation, error) {
@@ -75,13 +78,22 @@ func (m *defaultTRelationModel) FindOne(ctx context.Context, userId string) (*TR
 func (m *defaultTRelationModel) Insert(ctx context.Context, data *TRelation) (sql.Result, error) {
 	query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?)", m.table, tRelationRowsExpectAutoSet)
 	ret, err := m.conn.ExecCtx(ctx, query, data.UserId, data.Uid, data.State)
-	return ret, err
+	if err != nil {
+		return ret, err
+	}
+	if err := checkOneRowAffected(ret); err != nil {
+		return ret, err
+	}
+	return ret, nil
 }
 
 func (m *defaultTRelationModel) Update(ctx context.Context, data *TRelation) error {
 	query := fmt.Sprintf("update %s set %s where `user_id` = ?", m.table, tRelationRowsWithPlaceHolder)
-	_, err := m.conn.ExecCtx(ctx, query, data.Uid, data.State, data.UserId)
-	return err
+	ret, err := m.conn.ExecCtx(ctx, query, data.Uid, data.State, data.UserId)
+	if err != nil {
+		return err
+	}
+	return checkOneRowAffected(ret)
 }
 
 func (m *defaultTRelationModel) tableName() string {

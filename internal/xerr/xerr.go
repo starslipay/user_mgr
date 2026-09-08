@@ -20,12 +20,12 @@ var (
 	ErrCodeCallRpc        = ModuleErrorBase + 2
 
 	// 业务错误码 1000-1999
-	ErrCodeParam                                   = ModuleErrorBase + 1000
-	ErrCodeUserNotExist                            = ModuleErrorBase + 1001
-	ErrCodePasswordWrong                           = ModuleErrorBase + 1002
-	ErrCodeUserAlreadyRegistered                   = ModuleErrorBase + 1003
-	ErrCodeRelationStateNotRegisteringOrRegistered = ModuleErrorBase + 1004
-	ErrCodeTokenInvalid                            = ModuleErrorBase + 1005
+	ErrCodeParam                 = ModuleErrorBase + 1000
+	ErrCodeUserNotExist          = ModuleErrorBase + 1001
+	ErrCodePasswordWrong         = ModuleErrorBase + 1002
+	ErrCodeUserAlreadyRegistered = ModuleErrorBase + 1003
+	ErrCodeRelationStateInvalid  = ModuleErrorBase + 1004
+	ErrCodeTokenInvalid          = ModuleErrorBase + 1005
 )
 
 func ParseRPCError(err error) error {

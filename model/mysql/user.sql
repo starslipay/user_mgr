@@ -29,5 +29,10 @@ CREATE TABLE `t_user_info` (
   INDEX `idx_update_time` (`update_time`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- 为什么拆成relation和userinfo表
+-- 1.职责单一，relation记录的外部和内部关联关系，userinfo记录用户的基本信息
+-- 2.使用自增id作为内部主键，索引性能，分库分表都更好
+-- 3.relation信息一般不会修改，可以缓存起来，通过缓存提高查询效率
+
 -- goctl model mysql ddl -src user.sql -dir .
 -- -c：开启缓存（redis，可选，不加则无缓存）

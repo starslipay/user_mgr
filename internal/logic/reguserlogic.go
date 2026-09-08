@@ -66,6 +66,7 @@ func (l *RegUserLogic) checkInputParams(in *user_mgr_pb.RegUserReq) error {
 }
 
 func (l *RegUserLogic) RegUser(in *user_mgr_pb.RegUserReq) (*user_mgr_pb.RegUserRsp, error) {
+	// 校验输入参数
 	if err := l.checkInputParams(in); err != nil {
 		return nil, err
 	}
@@ -74,7 +75,7 @@ func (l *RegUserLogic) RegUser(in *user_mgr_pb.RegUserReq) (*user_mgr_pb.RegUser
 	PasswordMD5 := util.GenMD5(in.Password)
 
 	isExistRelation := true
-	// 先查询relation是否已经存在
+	// 先查询relation是否已经存在，如果不存在则创建新的relation
 	relation, err := l.svcCtx.TRelationModelMaster.FindOne(l.ctx, in.UserId)
 	if err != nil {
 		if err == sqlx.ErrNotFound {
@@ -84,11 +85,13 @@ func (l *RegUserLogic) RegUser(in *user_mgr_pb.RegUserReq) (*user_mgr_pb.RegUser
 		}
 	} else {
 		if RelationStateRegistering == relation.State {
-			// 继续关联中，不执行后续操作
+			// 已经在注册流程中，继续执行后续操作
 		} else if RelationStateRegistered == relation.State {
+			// 用户已注册，直接报错
 			return nil, xerror.NewBizError(codes.Internal, xerr.ErrCodeUserAlreadyRegistered, "user already registered")
 		} else {
-			return nil, xerror.NewBizError(codes.Internal, xerr.ErrCodeRelationStateNotRegisteringOrRegistered, "relation state not registering or registered")
+			// 其他状态，直接报错
+			return nil, xerror.NewBizError(codes.Internal, xerr.ErrCodeRelationStateInvalid, "relation state invalid")
 		}
 	}
 
@@ -96,6 +99,7 @@ func (l *RegUserLogic) RegUser(in *user_mgr_pb.RegUserReq) (*user_mgr_pb.RegUser
 	if isExistRelation {
 		uid = relation.Uid
 	} else {
+		// 不存在relation，需要生成新的uid
 		uid, err = l.genUid()
 		if err != nil {
 			return nil, err
@@ -169,6 +173,7 @@ func (l *RegUserLogic) RegUser(in *user_mgr_pb.RegUserReq) (*user_mgr_pb.RegUser
 		l.Logger.Info("create account already exist, create repeat")
 	}
 
+	// 更新relation状态为注册成功
 	err = l.svcCtx.TRelationModelMaster.Update(l.ctx, &mysql.TRelation{
 		UserId: in.UserId,
 		Uid:    uid,
