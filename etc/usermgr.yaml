@@ -42,3 +42,10 @@ Prometheus:
   Host: 0.0.0.0
   Port: 9090
   Path: /metrics
+
+# 链路追踪：go-zero 通过 OTLP 协议发送 trace 到 Tempo
+Telemetry:
+  Name: user_mgr
+  Endpoint: http://tempo:4318
+  Batcher: otlphttp
+  Sampler: 1.0
