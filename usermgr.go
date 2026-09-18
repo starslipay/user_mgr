@@ -6,6 +6,7 @@ import (
 
 	"github.com/starslipay/user_mgr/internal/config"
 	"github.com/starslipay/user_mgr/internal/metrics"
+	"github.com/starslipay/user_mgr/internal/middleware"
 	"github.com/starslipay/user_mgr/internal/server"
 	"github.com/starslipay/user_mgr/internal/svc"
 	"github.com/starslipay/user_mgr/user_mgr_pb"
@@ -34,6 +35,11 @@ func main() {
 		}
 	})
 	s.AddUnaryInterceptors(metrics.UnaryMetricInterceptor)
+	if c.AccessLog.Enable {
+		s.AddUnaryInterceptors(middleware.AccessLogUnaryInterceptor(
+			middleware.NewSensitiveFields(c.AccessLog.SensitiveFields),
+		))
+	}
 	defer s.Stop()
 
 	fmt.Printf("Starting rpc server at %s...\n", c.ListenOn)
