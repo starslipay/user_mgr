@@ -38,7 +38,7 @@ CREATE TABLE `t_user_info` (
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`uid`),
   INDEX `idx_create_time` (`create_time`),
-  INDEX `idx_update_time` (`update_time`)
+  INDEX `idx_update_time` (`update_time`) 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- linux:  mysql -h 127.0.0.1 -P 3306 -u root -proot123456 < user_init.sql
