@@ -15,7 +15,7 @@ try {
     Write-Host ""
 
     # Secondary confirmation to prevent accidental execution (will drop and recreate user_db)
-    $confirm = Read-Host "This will drop and recreate the order_db database! Type y to confirm, any other key to cancel"
+    $confirm = Read-Host "This will drop and recreate the user_db database! Type y to confirm, any other key to cancel"
     if ($confirm -ne 'y') {
         Write-Host "Execution cancelled." -ForegroundColor Red
         exit 0
