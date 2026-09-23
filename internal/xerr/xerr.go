@@ -10,16 +10,16 @@ import (
 // 错误码 = 模块id + 业务错误码
 var (
 	ModuleId        = int64(455904)
-	ModuleErrorBase = ModuleId * 1000
+	ModuleErrorBase = ModuleId * 100
 )
 
 var (
-	// 系统错误 0000-0999
+	// 系统错误 000-099
 	ErrCodeDBError        = ModuleErrorBase + 0
 	ErrCodeServerInternal = ModuleErrorBase + 1
 	ErrCodeCallRpc        = ModuleErrorBase + 2
 
-	// 业务错误码 1000-1999
+	// 业务错误码 100-999
 	ErrCodeParam                 = ModuleErrorBase + 100
 	ErrCodeUserNotExist          = ModuleErrorBase + 101
 	ErrCodePasswordWrong         = ModuleErrorBase + 102
