@@ -11,11 +11,11 @@ Etcd:
 
 MasterDBConfig:
   # DataSource: root:root123456@tcp(mysql-primary.pay-ns.svc.cluster.local:3306)/user_db?charset=utf8mb4&parseTime=True&loc=Local&timeout=5s&readTimeout=10s&writeTimeout=10s  # k8s
-  DataSource: root:root123456@tcp(mysql8:3306)/user_db?charset=utf8mb4&parseTime=True&loc=Local&timeout=5s&readTimeout=10s&writeTimeout=10s  # 开发环境
+  DataSource: root:root123456@tcp(mysql-master:3306)/user_db?charset=utf8mb4&parseTime=True&loc=Local&timeout=5s&readTimeout=10s&writeTimeout=10s  # 开发环境
 
 SlaveDBConfig:
   # DataSource: starslipay:starslipay123456@tcp(mysql-slave.pay-ns.svc.cluster.local:3306)/user_db?charset=utf8mb4&parseTime=True&loc=Local&timeout=5s&readTimeout=10s&writeTimeout=10s
-  DataSource: root:root123456@tcp(mysql8:3306)/user_db?charset=utf8mb4&parseTime=True&loc=Local&timeout=5s&readTimeout=10s&writeTimeout=10s  # 开发环境
+  DataSource: root:root123456@tcp(mysql-master:3306)/user_db?charset=utf8mb4&parseTime=True&loc=Local&timeout=5s&readTimeout=10s&writeTimeout=10s  # 开发环境
 
 AccountMgrRpcConfig:
   Etcd:
