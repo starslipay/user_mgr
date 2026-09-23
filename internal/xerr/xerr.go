@@ -9,23 +9,22 @@ import (
 // 模块id  20000
 // 错误码 = 模块id + 业务错误码
 var (
-	ModuleId        = int64(455904)
-	ModuleErrorBase = ModuleId * 100
+	ModuleId = int64(455904)
 )
 
 var (
 	// 系统错误 000-099
-	ErrCodeDBError        = ModuleErrorBase + 0
-	ErrCodeServerInternal = ModuleErrorBase + 1
-	ErrCodeCallRpc        = ModuleErrorBase + 2
+	ErrCodeDBError        = int64(455904000)
+	ErrCodeServerInternal = int64(455904001)
+	ErrCodeCallRpc        = int64(455904002)
 
 	// 业务错误码 100-999
-	ErrCodeParam                 = ModuleErrorBase + 100
-	ErrCodeUserNotExist          = ModuleErrorBase + 101
-	ErrCodePasswordWrong         = ModuleErrorBase + 102
-	ErrCodeUserAlreadyRegistered = ModuleErrorBase + 103
-	ErrCodeRelationStateInvalid  = ModuleErrorBase + 104
-	ErrCodeTokenInvalid          = ModuleErrorBase + 105
+	ErrCodeParam                 = int64(455904100)
+	ErrCodeUserNotExist          = int64(455904101)
+	ErrCodePasswordWrong         = int64(455904102)
+	ErrCodeUserAlreadyRegistered = int64(455904103)
+	ErrCodeRelationStateInvalid  = int64(455904104)
+	ErrCodeTokenInvalid          = int64(455904105)
 )
 
 func ParseRPCError(err error) error {
