@@ -45,6 +45,6 @@ CREATE TABLE `t_user_info` (
 -- windows: Get-Content -Encoding UTF8 user_init.sql | mysql -h 127.0.0.1 -P 3306 -u root -proot123456
 -- 只读权限 multipass exec master1 -- sudo kubectl exec -it -n pay-ns mysql-0 -- mysql -ustarslipay -ppayClipayA2026
 -- root权限 multipass exec master1 -- sudo kubectl exec -it -n pay-ns mysql-0 -- mysql -uroot -proot123456
-
+bench_1790187457049_0
 
 -- select * from user_db.t_uid_segment limit 2;

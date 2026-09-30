@@ -23,8 +23,9 @@ type ServiceContext struct {
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
-	SqlMasterConn := sqlx.NewMysql(c.MasterDBConfig.DataSource)
-	SqlSlaveConn := sqlx.NewMysql(c.SlaveDBConfig.DataSource)
+	// 关闭db熔断保护
+	SqlMasterConn := sqlx.NewMysql(c.MasterDBConfig.DataSource, sqlx.WithAcceptable(func(err error) bool { return true }))
+	SqlSlaveConn := sqlx.NewMysql(c.SlaveDBConfig.DataSource, sqlx.WithAcceptable(func(err error) bool { return true }))
 	return &ServiceContext{
 		Config:               c,
 		TRelationModelMaster: mysql.NewTRelationModel(SqlMasterConn),
