@@ -9,6 +9,7 @@ import (
 	"github.com/starslipay/user_mgr/internal/config"
 	"github.com/starslipay/user_mgr/model/mysql"
 	"github.com/zeromicro/go-zero/core/logx"
+	"github.com/zeromicro/go-zero/core/stores/redis"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
 	"github.com/zeromicro/go-zero/zrpc"
 )
@@ -24,6 +25,8 @@ type ServiceContext struct {
 
 	AccountMgrRpcClient account_mgr_pb.AccountMgrClient
 	TradeIdMgrRpcClient trade_id_mgr_pb.TradeIdMgrClient
+
+	RedisClient *redis.Redis
 }
 
 // newDBConn 自建 *sql.DB 以支持自定义连接池参数
@@ -57,5 +60,7 @@ func NewServiceContext(c config.Config) *ServiceContext {
 
 		AccountMgrRpcClient: account_mgr_pb.NewAccountMgrClient(zrpc.MustNewClient(c.AccountMgrRpcConfig).Conn()),
 		TradeIdMgrRpcClient: trade_id_mgr_pb.NewTradeIdMgrClient(zrpc.MustNewClient(c.TradeIdMgrRpcConfig).Conn()),
+
+		RedisClient: redis.MustNewRedis(c.RedisConfig),
 	}
 }

@@ -16,6 +16,9 @@ const (
 	RelationStateRegistered  = 2 // 注册成功
 )
 
+// RedisKeyRelationPrefix relation 缓存 key 前缀：relation|{user_id} -> uid=<uid>
+const RedisKeyRelationPrefix = "relation|"
+
 const (
 	FlowTypeIn  = 1 // 入
 	FlowTypeOut = 2 // 出
