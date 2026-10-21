@@ -55,12 +55,13 @@ TradeIdMgrRpcConfig:
     Key: tradeidmgr.rpc  # 注册到etcd的服务key，客户端要对应这个key
   Timeout: 10000  # 超时时间，单位毫秒
 
-# Redis 缓存配置（注册用户成功后写入 relation 缓存）
-RedisConfig:
-  # Host: redis-master.pay-ns.svc.cluster.local:6379  # k8s
-  Host: redis-master:6379  # 开发环境
-  Type: node  # node-单机, cluster-集群
-  Pass: ""    # 无密码
+# Kafka 生产者配置 (3 节点集群, 客户端自动发现所有 broker)
+KafkaProducerConf:
+  - kafka1:29092
+  - kafka2:29092
+  - kafka3:29092
+# relation 缓存更新消息 topic, 由 cache_consumer 消费后回调 cache_mgr 写入 redis
+TopicUpdateRelation: t_update_relation
 
 # Prometheus 指标采集：go-zero 会另起一个独立 HTTP 端口暴露 /metrics
 Prometheus:

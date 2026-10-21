@@ -8,8 +8,8 @@ import (
 	"github.com/starslipay/trade_id_mgr/trade_id_mgr_pb"
 	"github.com/starslipay/user_mgr/internal/config"
 	"github.com/starslipay/user_mgr/model/mysql"
+	"github.com/zeromicro/go-queue/kq"
 	"github.com/zeromicro/go-zero/core/logx"
-	"github.com/zeromicro/go-zero/core/stores/redis"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
 	"github.com/zeromicro/go-zero/zrpc"
 )
@@ -26,7 +26,8 @@ type ServiceContext struct {
 	AccountMgrRpcClient account_mgr_pb.AccountMgrClient
 	TradeIdMgrRpcClient trade_id_mgr_pb.TradeIdMgrClient
 
-	RedisClient *redis.Redis
+	// UpdateRelationProducer relation 缓存更新消息生产者(topic t_update_relation)
+	UpdateRelationProducer *kq.Pusher
 }
 
 // newDBConn 自建 *sql.DB 以支持自定义连接池参数
@@ -61,6 +62,6 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		AccountMgrRpcClient: account_mgr_pb.NewAccountMgrClient(zrpc.MustNewClient(c.AccountMgrRpcConfig).Conn()),
 		TradeIdMgrRpcClient: trade_id_mgr_pb.NewTradeIdMgrClient(zrpc.MustNewClient(c.TradeIdMgrRpcConfig).Conn()),
 
-		RedisClient: redis.MustNewRedis(c.RedisConfig),
+		UpdateRelationProducer: kq.NewPusher(c.KafkaProducerConf, c.TopicUpdateRelation),
 	}
 }

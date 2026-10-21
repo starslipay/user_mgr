@@ -1,7 +1,6 @@
 package config
 
 import (
-	"github.com/zeromicro/go-zero/core/stores/redis"
 	"github.com/zeromicro/go-zero/zrpc"
 )
 
@@ -19,7 +18,10 @@ type Config struct {
 	SlaveDBConfig       DBConfig
 	AccountMgrRpcConfig zrpc.RpcClientConf
 	TradeIdMgrRpcConfig zrpc.RpcClientConf
-	RedisConfig         redis.RedisConf
+
+	// Kafka 生产者: relation 缓存更新消息, 由 cache_consumer 消费后回调 cache_mgr 写 redis
+	KafkaProducerConf   []string
+	TopicUpdateRelation string
 
 	// AccessLog 请求/响应日志脱敏配置
 	AccessLog AccessLogConf

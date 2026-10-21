@@ -2,8 +2,6 @@ package logic
 
 import (
 	"context"
-	"net/url"
-	"strconv"
 
 	"github.com/starslipay/account_mgr/account_mgr_pb"
 	"github.com/starslipay/paycomm/xerror"
@@ -185,13 +183,8 @@ func (l *RegUserLogic) RegUser(in *user_mgr_pb.RegUserReq) (*user_mgr_pb.RegUser
 		return nil, xerror.NewBizError(codes.Internal, xerr.ErrCodeDBError, "update relation state failed: "+err.Error())
 	}
 
-	// 注册成功，将 relation 数据写入 redis 缓存：key=relation|{user_id}, value=URL键值对串(含uid)
-	// 缓存写入失败不影响注册主流程，仅记录错误日志
-	relationValues := url.Values{}
-	relationValues.Set("uid", strconv.FormatInt(uid, 10))
-	if err = l.svcCtx.RedisClient.SetCtx(l.ctx, RedisKeyRelationPrefix+in.UserId, relationValues.Encode()); err != nil {
-		l.Logger.Errorf("write relation cache to redis failed, user_id: %s, uid: %d, err: %v", in.UserId, uid, err)
-	}
+	// 注册成功，异步发送 relation 缓存更新消息(t_update_relation)，由 cache_consumer 消费后回调 cache_mgr 写入 redis
+	sendUpdateRelationMessage(l.ctx, l.svcCtx, in.UserId, uid)
 
 	return &user_mgr_pb.RegUserRsp{
 		UserId: in.UserId,
