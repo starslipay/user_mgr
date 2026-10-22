@@ -14,6 +14,8 @@ import (
 )
 
 type (
+	CancelUserReq      = user_mgr_pb.CancelUserReq
+	CancelUserRsp      = user_mgr_pb.CancelUserRsp
 	CheckPasswordReq   = user_mgr_pb.CheckPasswordReq
 	CheckPasswordRsp   = user_mgr_pb.CheckPasswordRsp
 	CheckUserTokenReq  = user_mgr_pb.CheckUserTokenReq
@@ -33,6 +35,7 @@ type (
 
 	UserMgr interface {
 		RegUser(ctx context.Context, in *RegUserReq, opts ...grpc.CallOption) (*RegUserRsp, error)
+		CancelUser(ctx context.Context, in *CancelUserReq, opts ...grpc.CallOption) (*CancelUserRsp, error)
 		UpdateUserInfo(ctx context.Context, in *UpdateUserInfoReq, opts ...grpc.CallOption) (*UpdateUserInfoRsp, error)
 		GetRelation(ctx context.Context, in *GetRelationReq, opts ...grpc.CallOption) (*GetRelationRsp, error)
 		GetUserInfo(ctx context.Context, in *GetUserInfoReq, opts ...grpc.CallOption) (*GetUserInfoRsp, error)
@@ -57,6 +60,11 @@ func NewUserMgr(cli zrpc.Client) UserMgr {
 func (m *defaultUserMgr) RegUser(ctx context.Context, in *RegUserReq, opts ...grpc.CallOption) (*RegUserRsp, error) {
 	client := user_mgr_pb.NewUserMgrClient(m.cli.Conn())
 	return client.RegUser(ctx, in, opts...)
+}
+
+func (m *defaultUserMgr) CancelUser(ctx context.Context, in *CancelUserReq, opts ...grpc.CallOption) (*CancelUserRsp, error) {
+	client := user_mgr_pb.NewUserMgrClient(m.cli.Conn())
+	return client.CancelUser(ctx, in, opts...)
 }
 
 func (m *defaultUserMgr) UpdateUserInfo(ctx context.Context, in *UpdateUserInfoReq, opts ...grpc.CallOption) (*UpdateUserInfoRsp, error) {

@@ -28,6 +28,11 @@ func (s *UserMgrServer) RegUser(ctx context.Context, in *user_mgr_pb.RegUserReq)
 	return l.RegUser(in)
 }
 
+func (s *UserMgrServer) CancelUser(ctx context.Context, in *user_mgr_pb.CancelUserReq) (*user_mgr_pb.CancelUserRsp, error) {
+	l := logic.NewCancelUserLogic(ctx, s.svcCtx)
+	return l.CancelUser(in)
+}
+
 func (s *UserMgrServer) UpdateUserInfo(ctx context.Context, in *user_mgr_pb.UpdateUserInfoReq) (*user_mgr_pb.UpdateUserInfoRsp, error) {
 	l := logic.NewUpdateUserInfoLogic(ctx, s.svcCtx)
 	return l.UpdateUserInfo(in)

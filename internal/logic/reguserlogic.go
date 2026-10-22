@@ -89,6 +89,9 @@ func (l *RegUserLogic) RegUser(in *user_mgr_pb.RegUserReq) (*user_mgr_pb.RegUser
 		} else if RelationStateRegistered == relation.State {
 			// 用户已注册，直接报错
 			return nil, xerror.NewBizError(codes.Internal, xerr.ErrCodeUserAlreadyRegistered, "user already registered")
+		} else if RelationStateCancelled == relation.State {
+			// 用户已注销，禁止重新注册
+			return nil, xerror.NewBizError(codes.Internal, xerr.ErrCodeUserAlreadyCancelled, "user already cancelled, cannot register again")
 		} else {
 			// 其他状态，直接报错
 			return nil, xerror.NewBizError(codes.Internal, xerr.ErrCodeRelationStateInvalid, "relation state invalid")

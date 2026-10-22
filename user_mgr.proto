@@ -32,6 +32,16 @@ message RegUserRsp {
     string user_id = 1;
 }
 
+// 注销用户Req
+message CancelUserReq {
+    string user_id = 1;
+}
+
+// 注销用户Rsp
+message CancelUserRsp {
+    string user_id = 1;
+}
+
 message GetUserInfoReq {
     string user_id = 1;
 }
@@ -113,6 +123,7 @@ message GetMerchantInfoRsp {
 
 service UserMgr {
     rpc RegUser(RegUserReq) returns (RegUserRsp);
+    rpc CancelUser(CancelUserReq) returns (CancelUserRsp);  // 注销用户(软删除, 注销后禁止重新注册)
     rpc UpdateUserInfo(UpdateUserInfoReq) returns (UpdateUserInfoRsp);
     rpc GetRelation(GetRelationReq) returns (GetRelationRsp);
     rpc GetUserInfo(GetUserInfoReq) returns (GetUserInfoRsp);

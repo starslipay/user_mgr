@@ -20,6 +20,7 @@ const _ = grpc.SupportPackageIsVersion9
 
 const (
 	UserMgr_RegUser_FullMethodName         = "/user_mgr.UserMgr/RegUser"
+	UserMgr_CancelUser_FullMethodName      = "/user_mgr.UserMgr/CancelUser"
 	UserMgr_UpdateUserInfo_FullMethodName  = "/user_mgr.UserMgr/UpdateUserInfo"
 	UserMgr_GetRelation_FullMethodName     = "/user_mgr.UserMgr/GetRelation"
 	UserMgr_GetUserInfo_FullMethodName     = "/user_mgr.UserMgr/GetUserInfo"
@@ -34,6 +35,7 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type UserMgrClient interface {
 	RegUser(ctx context.Context, in *RegUserReq, opts ...grpc.CallOption) (*RegUserRsp, error)
+	CancelUser(ctx context.Context, in *CancelUserReq, opts ...grpc.CallOption) (*CancelUserRsp, error)
 	UpdateUserInfo(ctx context.Context, in *UpdateUserInfoReq, opts ...grpc.CallOption) (*UpdateUserInfoRsp, error)
 	GetRelation(ctx context.Context, in *GetRelationReq, opts ...grpc.CallOption) (*GetRelationRsp, error)
 	GetUserInfo(ctx context.Context, in *GetUserInfoReq, opts ...grpc.CallOption) (*GetUserInfoRsp, error)
@@ -56,6 +58,16 @@ func (c *userMgrClient) RegUser(ctx context.Context, in *RegUserReq, opts ...grp
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(RegUserRsp)
 	err := c.cc.Invoke(ctx, UserMgr_RegUser_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userMgrClient) CancelUser(ctx context.Context, in *CancelUserReq, opts ...grpc.CallOption) (*CancelUserRsp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CancelUserRsp)
+	err := c.cc.Invoke(ctx, UserMgr_CancelUser_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -137,6 +149,7 @@ func (c *userMgrClient) GetMerchantInfo(ctx context.Context, in *GetMerchantInfo
 // for forward compatibility.
 type UserMgrServer interface {
 	RegUser(context.Context, *RegUserReq) (*RegUserRsp, error)
+	CancelUser(context.Context, *CancelUserReq) (*CancelUserRsp, error)
 	UpdateUserInfo(context.Context, *UpdateUserInfoReq) (*UpdateUserInfoRsp, error)
 	GetRelation(context.Context, *GetRelationReq) (*GetRelationRsp, error)
 	GetUserInfo(context.Context, *GetUserInfoReq) (*GetUserInfoRsp, error)
@@ -157,6 +170,9 @@ type UnimplementedUserMgrServer struct{}
 
 func (UnimplementedUserMgrServer) RegUser(context.Context, *RegUserReq) (*RegUserRsp, error) {
 	return nil, status.Error(codes.Unimplemented, "method RegUser not implemented")
+}
+func (UnimplementedUserMgrServer) CancelUser(context.Context, *CancelUserReq) (*CancelUserRsp, error) {
+	return nil, status.Error(codes.Unimplemented, "method CancelUser not implemented")
 }
 func (UnimplementedUserMgrServer) UpdateUserInfo(context.Context, *UpdateUserInfoReq) (*UpdateUserInfoRsp, error) {
 	return nil, status.Error(codes.Unimplemented, "method UpdateUserInfo not implemented")
@@ -214,6 +230,24 @@ func _UserMgr_RegUser_Handler(srv interface{}, ctx context.Context, dec func(int
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(UserMgrServer).RegUser(ctx, req.(*RegUserReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserMgr_CancelUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CancelUserReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserMgrServer).CancelUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserMgr_CancelUser_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserMgrServer).CancelUser(ctx, req.(*CancelUserReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -354,6 +388,10 @@ var UserMgr_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "RegUser",
 			Handler:    _UserMgr_RegUser_Handler,
+		},
+		{
+			MethodName: "CancelUser",
+			Handler:    _UserMgr_CancelUser_Handler,
 		},
 		{
 			MethodName: "UpdateUserInfo",
