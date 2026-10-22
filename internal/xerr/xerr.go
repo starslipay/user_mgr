@@ -26,6 +26,7 @@ var (
 	ErrCodeRelationStateInvalid  = int64(455904104)
 	ErrCodeTokenInvalid          = int64(455904105)
 	ErrCodeUserAlreadyCancelled  = int64(455904106)
+	ErrCodeBalanceNotZero        = int64(455904107)
 )
 
 func ParseRPCError(err error) error {

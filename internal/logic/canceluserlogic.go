@@ -3,6 +3,7 @@ package logic
 import (
 	"context"
 
+	"github.com/starslipay/account_mgr/account_mgr_pb"
 	"github.com/starslipay/paycomm/xerror"
 	"github.com/starslipay/user_mgr/internal/svc"
 	"github.com/starslipay/user_mgr/internal/xerr"
@@ -50,6 +51,18 @@ func (l *CancelUserLogic) CancelUser(in *user_mgr_pb.CancelUserReq) (*user_mgr_p
 	default:
 		// 注册中/其他状态不允许注销
 		return nil, xerror.NewBizError(codes.Internal, xerr.ErrCodeRelationStateInvalid, "relation state invalid, cannot cancel")
+	}
+
+	// 余额不为零不允许注销，提示用户先转出。查主库(qry_mode=2)确保数据准确
+	balanceRsp, err := l.svcCtx.AccountMgrRpcClient.GetUserBalanceInfo(l.ctx, &account_mgr_pb.GetUserBalanceInfoReq{
+		Uid:     relation.Uid,
+		QryMode: 2, // 2-查主库
+	})
+	if err != nil {
+		return nil, xerror.HandleRPCError(err, "account_mgr.GetUserBalanceInfo")
+	}
+	if balanceRsp.Balance != 0 {
+		return nil, xerror.NewBizError(codes.Internal, xerr.ErrCodeBalanceNotZero, "balance not zero, please transfer out before cancel")
 	}
 
 	// 软删除：relation 状态置为已注销，userinfo 数据保留
