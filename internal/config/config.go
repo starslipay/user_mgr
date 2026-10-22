@@ -22,6 +22,8 @@ type Config struct {
 	// Kafka 生产者: relation 缓存更新消息, 由 cache_consumer 消费后回调 cache_mgr 写 redis
 	KafkaProducerConf   []string
 	TopicUpdateRelation string
+	// EnableUpdateRelationCmq relation 缓存更新消息总开关: true-发送 t_update_relation; false-不发送(不更新 redis)
+	EnableUpdateRelationCmq bool `json:",default=true"`
 
 	// AccessLog 请求/响应日志脱敏配置
 	AccessLog AccessLogConf

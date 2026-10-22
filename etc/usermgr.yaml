@@ -62,6 +62,8 @@ KafkaProducerConf:
   - kafka3:29092
 # relation 缓存更新消息 topic, 由 cache_consumer 消费后回调 cache_mgr 写入 redis
 TopicUpdateRelation: t_update_relation
+# relation 缓存更新消息总开关: true-发送 t_update_relation; false-不发送(不更新 redis)
+EnableUpdateRelationCmq: true
 
 # Prometheus 指标采集：go-zero 会另起一个独立 HTTP 端口暴露 /metrics
 Prometheus:

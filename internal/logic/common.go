@@ -29,6 +29,12 @@ type UpdateRelationMessage struct {
 // sendUpdateRelationMessage 发送 relation 缓存更新消息(t_update_relation), 替代直接写 redis, 解耦主流程与缓存写入
 // 发送失败仅记录日志, 不影响注册主流程(缓存最终一致性, 由对账任务兜底)
 func sendUpdateRelationMessage(ctx context.Context, svcCtx *svc.ServiceContext, userId string, uid int64) {
+	// 总开关关闭时不发送消息, relation 缓存不做更新
+	if !svcCtx.Config.EnableUpdateRelationCmq {
+		logx.WithContext(ctx).Infof("update relation cmq disabled, skip, user_id: %s, uid: %d", userId, uid)
+		return
+	}
+
 	msg := &UpdateRelationMessage{
 		UserId: userId,
 		Uid:    uid,
